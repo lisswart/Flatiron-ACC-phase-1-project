@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" defer></script>
+    <title>Merriam-Webster</title>
+</head>
+<body>
+    <div id="page-container">
+
+        <div id="content-wrapper">
+
+            <header>
+                <div id="header-image">
+                    <h1>Learner's Dictionary</h1>
+                </div>
+            </header>
+            
+            <form>
+                <div id="search-div">
+                    <select id="search-type">
+                        <option value="">Search for ...</option>
+                        <option value="short-def">short definition</option>
+                        <option value="def">definition</option>
+                        <option value="dros">defined run-on phrases</option>
+                        <option value="thesaurus">synonyms</option>
+                    </select>
+                    <input type="text" id="search-box">
+                    <input type="submit" id="search-button" value="Search">
+                </div>
+            </form>
+            
+            <section>
+                <div id="result-panel"></div>
+            </section>
+            
+        </div>
+
+        <footer>
+            Fuzzy Bassoon
+        </footer>
+
+    </div>
+</body>
+</html>
