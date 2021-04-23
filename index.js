@@ -9,24 +9,23 @@ const searchButton = document.querySelector("#search-button");
 
 searchButton.addEventListener("click", event => {
     event.preventDefault();
-    event.stopPropagation();
     const arrOfRespObjects = getDictionary(lookUpWord.value);
-    if (searchType.value === "short-def") {
-        arrOfRespObjects.then(arr => {
+    if(searchType.value === "short-def") {
+        arrOfRespObjects.then( arr => {
             displayShortDef(arr);
             console.log(arr);
         });
-    }
-    else if (searchType.value === "dros") {
+    }    
+    else if(searchType.value === "dros") {
         arrOfRespObjects.then(arr => {
             displayDRP(arr);
-            console.log(arr);
+            console.log(arr);            
         });
     }
 });
 
-function getDictionary(word) {
-    return fetch(learnerDictionarybaseURL + word + "?key=" + learnerDictionApiKey)
+function getDictionary(word) {    
+    return fetch(learnerDictionarybaseURL+word+"?key="+learnerDictionApiKey)
         .then(resp => resp.json());
 }
 
@@ -44,11 +43,11 @@ function displayShortDef(arrayOfObjects) {
         const unorderedList = document.createElement("ul");
         unorderedList.appendChild(headword);
         const arrOfShortDef = object.shortdef;
-        arrOfShortDef.forEach(strings => {
+        arrOfShortDef.forEach( strings => {
             const para = document.createElement("li");
             para.textContent = strings;
             unorderedList.appendChild(para);
-        });
+        });       
         shortDefDiv.appendChild(functionalLabel);
         shortDefDiv.appendChild(unorderedList);
         resultPanel.appendChild(shortDefDiv);
@@ -57,29 +56,25 @@ function displayShortDef(arrayOfObjects) {
 
 function displayDRP(arrOfRespObjs) {
     resultPanel.innerHTML = "";
-    arrOfRespObjs.forEach(respObj => {
+    arrOfRespObjs.forEach(respObj => {        
         const drpDiv = document.createElement("div");
         drpDiv.className = "drp-div";
         const unorderedList = document.createElement("ul");
         unorderedList.className = "ul";
-        if(respObj.hwi.hw === lookUpWord.value) {
-            const headword = document.createElement("h3");
-            headword.className = "hwi";
-            headword.textContent = respObj.hwi.hw;
-            const functionalLabel = document.createElement("li");
-            functionalLabel.className = "fl";
-            functionalLabel.textContent = respObj.fl;
-            drpDiv.appendChild(functionalLabel);
-        }
-        else {
-            return alert("currently, the keyword you entered doesn't have defined run-on phrases associated with it in this database");
-        }
 
-        if (respObj.dros) {
+        const functionalLabel = document.createElement("li");
+        functionalLabel.className = "fl";
+        functionalLabel.textContent = respObj.fl;        
+        const headword = document.createElement("h3");
+        headword.className = "hwi";
+        headword.textContent = respObj.hwi.hw;
+        drpDiv.appendChild(functionalLabel);                
+        
+        if(respObj.dros) {
             unorderedList.appendChild(headword);
-            drpDiv.appendChild(unorderedList);
+            drpDiv.appendChild(unorderedList);                       
             resultPanel.appendChild(drpDiv);
-
+            
             const phraseOL = document.createElement("ol");
             phraseOL.className = "ordered-list";
             phraseOL.classList.add = "phrases";
@@ -94,25 +89,25 @@ function displayDRP(arrOfRespObjs) {
                 resultPanel.appendChild(drpDiv);
                 const drpdef = drp.def;
                 getDrpDef(drpdef, drpDiv, phraseOL);
-            });
+            });   
         }
-    });
+    });    
 }
 
-function getDrpDef(drpdef, drpDiv, phraseOL) {
+function getDrpDef(drpdef, drpDiv, phraseOL) {               
     drpdef.forEach(sseq => {
-        (sseq.sseq).forEach(array1 => {
+        (sseq.sseq).forEach(array1 => {                                          
             array1.forEach(sense => {
-                if (typeof (sense) === "object") {
-                    sense.forEach(a => {
-                        if (typeof (a) === "object") {
-                            if (a.dt) {
+                if(typeof(sense) === "object") {                                
+                    sense.forEach(a => {                  
+                        if(typeof(a) === "object") {
+                            if(a.dt) {
                                 dtTrooper(drpDiv, phraseOL, a);
                             }
                         }
-                    });
-                }
-            });
+                    }); 
+                }                                                                                  
+            });                                        
         });
     });
 }
@@ -126,7 +121,7 @@ function displayPhraseDefinition(text, visUL) {
 
 function displayVerbalIllustrations(dt, visUL, phraseOL, drpDiv) {
     const dt_0 = document.createElement("li");
-    dt_0.className = "vis";
+    dt_0.className = "vis";                                                                    
     dt_0.innerHTML = `<span class="vis">verbal illustration: </span>${dt}`;
     visUL.appendChild(dt_0);
     phraseOL.appendChild(visUL);
@@ -135,54 +130,54 @@ function displayVerbalIllustrations(dt, visUL, phraseOL, drpDiv) {
 }
 
 function dtTrooper(drpDiv, phraseOL, a) {
-    if (typeof (a.dt) === "object") {
-        const visUL = document.createElement("ul");
-        visUL.className = "vis-ul";
+    if(typeof(a.dt) === "object") {
+        const visUL = document. createElement("ul");
+        visUL.className = "vis-ul";                                             
         (a.dt).forEach(b => {
-            if (typeof (b[1]) == typeof ("")) {
+            if(typeof(b[1]) == typeof("")) {
                 displayPhraseDefinition(b[1], visUL);
             }
             b.forEach(c => {
-                if (typeof (c[1]) == typeof ("") && c[1].length > 3) {
+                if(typeof(c[1]) == typeof("") && c[1].length > 3) {
                     displayPhraseDefinition(c[1], visUL);
-                }
-                if (typeof (c) === "object") {
+                }                                                                                                        
+                if(typeof(c) === "object") {
                     c.forEach(d => {
-                        if (typeof (d[1]) == typeof ("") && d[1].length > 5) {
+                        if(typeof(d[1]) == typeof("") && d[1].length > 5) {
                             displayPhraseDefinition(d[1], visUL);
-                        }
-                        if (typeof (d.t) == typeof ("")) {
+                        }                                                                                                                            
+                        if(typeof(d.t) == typeof("")) {
                             const dt = d.t;
-                            displayVerbalIllustrations(dt, visUL, phraseOL, drpDiv);
+                            displayVerbalIllustrations(dt, visUL, phraseOL, drpDiv);                            
                         }
                         //error thrown: "d.forEach is not a function"
                         //reason: d is an array-like iterable object but not an array per se
                         //fix: utilize Array.from(arraylike) to convert an array-like object to an array                                                                
                         Array.from(d).forEach(e => {
-                            if (typeof (e[1]) == typeof ("") && e[1].length > 3) {
+                            if(typeof(e[1]) == typeof("") && e[1].length > 3) {
                                 displayPhraseDefinition(e[1], visUL);
-                            }
-                            if (typeof (e) === "object") {
-                                e.forEach(f => {
-                                    if (typeof (f.t) == typeof ("")) {
+                            }                                                                        
+                            if(typeof(e) === "object") {
+                                e.forEach(f => {                                                                                
+                                    if(typeof(f.t) == typeof("")) {
                                         const ft = f.t;
-                                        displayVerbalIllustrations(ft, visUL, phraseOL, drpDiv);
-                                    }
-                                    if (typeof (f) === "object") {
+                                        displayVerbalIllustrations(ft, visUL, phraseOL, drpDiv);                                                                                                                                   
+                                    }                                                                                
+                                    if(typeof(f) === "object") {
                                         //error thrown: "f.forEach is not a function"
                                         //reason: f is an array-like iterable object but not an array per se
                                         //fix: utilize Array.from(arraylike) to convert an array-like object to an array 
-                                        Array.from(f).forEach(g => {
-                                            if (typeof (g.t) == typeof ("")) {
+                                        Array.from(f).forEach(g => {                                                                          
+                                            if(typeof(g.t) == typeof("")) {
                                                 const gt = g.t;
                                                 displayVerbalIllustrations(gt, visUL, phraseOL, drpDiv);
-                                            }
-                                        });
-                                    }
+                                            }                                                                                  
+                                        });                                                                            
+                                    }                                                                                                                                                                                                                                            
                                 });
                             }
-                        });
-                    });
+                        }); 
+                    });                                                    
                 }
             });
         });
