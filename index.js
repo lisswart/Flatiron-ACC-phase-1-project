@@ -154,13 +154,19 @@ function displayDRP(arrOfRespObjs) {
                     visUL.className = "vis-ul";
 
                     console.log("sseq: " + sseq.sseq);//this gets me the value, which is already an array, inside the key "sseq"                                      
-                    (sseq.sseq).forEach(array1 => {//this reads for each array inside sseq array                                              
+                    (sseq.sseq).forEach(array1 => {//this reads for each array inside sseq array  
+                        console.log("HHELLOOOOO " + array1)                                            
                         array1.forEach(sense => {//this reads for each array inside of the array inside sseq array                            
-                            
+                            // if(typeof(sense) == typeof("") && sense[1] > 5) {
+                            //     const phraseDefinition_0 = document.createElement("li");
+                            //     phraseDefinition_0.className = "phrase-def";
+                            //     phraseDefinition_0.innerHTML = `<span class="phrase-def"> phrase definition: </span>${sense[1]}`;
+                            //     visUL.appendChild(phraseDefinition_0);
+                            // }
                             if(typeof(sense) === "object") {                                
                                 sense.forEach(a => {                  
                                     if(typeof(a) === "object") {
-                                        console.log(a.dt);//logs: [Array(2), Array(2)]                                       
+                                        console.log(a.dt);//logs:                                       
                                         if(typeof(a.dt) === "object") {
                                             const adt = a.dt;
                                             //this logs: text,{bc}to look in many places for (something) ,vis,[object Object],[object Object]                                            
@@ -184,23 +190,31 @@ function displayDRP(arrOfRespObjs) {
                                                                                                         
                                                         if(typeof(c) === "object") {
                                                             Array.from(c).forEach(d => {
-                                                                    console.log("which one is this? " + d);
-                                                                    console.log(typeof(d));
-                                                                    console.log("and this? " + d.t);//logs: "undefined"
+                                                                console.log("which one is this? " + d);
+                                                                console.log(typeof(d));
+                                                                if(typeof(d[1]) == typeof("") && d[1].length > 5) {
+                                                                    const phraseDefinition_0 = document.createElement("li");
+                                                                    phraseDefinition_0.className = "phrase-def";
+                                                                    phraseDefinition_0.innerHTML = `<span class="phrase-def"> phrase definition: </span>${d[1]}`;
+                                                                    //logs: If you do something {phrase}in your (own) sweet time{/phrase} 
+                                                                    //or you {phrase}take your (own) sweet time{/phrase} about doing something, 
+                                                                    //you do it slowly even though other people want you to do it more quickly.
+                                                                    visUL.appendChild(phraseDefinition_0);
+                                                                }
                                                                     const firstVis = document.createElement("li");
                                                                     firstVis.className = "vis";
                                                                     if(typeof(d.t) == typeof("")) {
-                                                                    firstVis.innerHTML = `<span class="vis">verbal illustration: </span>${d.t}`;
-                                                                    }                     
-                                                                    visUL.appendChild(firstVis);
-                                                                    phraseOL.appendChild(visUL);
-                                                                    drpDiv.appendChild(phraseOL);
-                                                                    resultPanel.appendChild(drpDiv);
+                                                                        console.log("******************************************************" + d.t);
+                                                                        firstVis.innerHTML = `<span class="vis">verbal illustration: </span>${d.t}`;
+                                                                        visUL.appendChild(firstVis);
+                                                                        phraseOL.appendChild(visUL);
+                                                                        drpDiv.appendChild(phraseOL);
+                                                                        resultPanel.appendChild(drpDiv);
+                                                                    }                                                                  
+                                                                    
                                                                     Array.from(d).forEach(e => {
                                                                         if(typeof(e[1]) == typeof("") && e[1].length > 3) {
-                                                                            console.log("phrase definition: " + e);
-                                                                            console.log(typeof(e));
-                                                                            console.log(e.t);
+                                                                            console.log("phrase definition: " + e);                                                                            
                                                                             const phraseDefinition_2 = document.createElement("li");
                                                                             phraseDefinition_2.className = "phrase-def";
                                                                             phraseDefinition_2.innerHTML = `<span class="phrase-def"> phrase definition: </span>${e[1]}`;
@@ -209,6 +223,8 @@ function displayDRP(arrOfRespObjs) {
                                                                         const et = document.createElement("li");
                                                                         et.className = "vis";
                                                                         if(typeof(e.t) == typeof("")) {
+                                                                            console.log("Yassssssum#######################################################" + e.t);
+                                                                            //logs: nothing, not even undefined, simply null zilch
                                                                             et.innerHTML = `<span class="vis">verbal illustration: </span>${e.t}`;
                                                                         }
                                                                         visUL.appendChild(et);
@@ -217,18 +233,18 @@ function displayDRP(arrOfRespObjs) {
                                                                         resultPanel.appendChild(drpDiv);
                                                                         if(typeof(e) === "object") {
                                                                             Array.from(e).forEach(f => {
-                                                                                console.log(f);
-                                                                                console.log(typeof(f));
-                                                                                console.log(f.t);
-                                                                                const ft = document.createElement("li");
-                                                                                ft.className = "vis";
+                                                                                console.log("#######################################################" + f);                                                                                
+                                                                                console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + f.t);
                                                                                 if(typeof(f.t) == typeof("")) {
-                                                                                    ft.innerHTML = `<span class="vis>verbal illustration: </span>${f.t}`;
+                                                                                    const ft = document.createElement("li");
+                                                                                    ft.className = "vis";
+                                                                                    ft.innerHTML = `<span class="vis">verbal illustration: </span>${f.t}`;
+                                                                                    visUL.appendChild(ft);
+                                                                                    phraseOL.appendChild(visUL);
+                                                                                    drpDiv.appendChild(phraseOL);
+                                                                                    resultPanel.appendChild(drpDiv);                                                                           
                                                                                 }
-                                                                                visUL.appendChild(ft);
-                                                                                phraseOL.appendChild(visUL);
-                                                                                drpDiv.appendChild(phraseOL);
-                                                                                resultPanel.appendChild(drpDiv);
+                                                                                
                                                                                 if(typeof(f) === "object") {
                                                                                     Array.from(f).forEach(g => {
                                                                                         console.log(g);

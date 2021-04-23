@@ -195,6 +195,7 @@ li.drp {
 li.phrase-def {
     list-style-position: outside;
     padding-left: 0.7em;
+    margin-left: 1.6em;
 }
 
 li.vis {
