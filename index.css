@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: gray;
+    background-color: tomato;
 }
 
 #page-container {
@@ -35,6 +35,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* font-family: 'Stalemate', cursive; */
 }
 
 #search-div {
@@ -135,7 +136,7 @@ footer {
     align-items: center;
 }
 
-.drp-div {
+div.drp-div {
     background-color: antiquewhite;
     border-left: 1pc solid rgba(12, 99, 121, 0.87);
     margin-bottom: 1pc;
@@ -148,7 +149,7 @@ div.drp-div  h3.hwi {
     color:cornflowerblue;
 }
 
-.drp-div:last-of-type {
+div.drp-div:last-of-type {
     margin-bottom: 2.5rem;
 }
 
