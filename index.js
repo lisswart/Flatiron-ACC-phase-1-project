@@ -2,13 +2,11 @@ console.log("Hi");
 
 const learnerDictionApiKey = "3248df3e-261a-4346-bf3d-e4d8e4480e1e";
 const learnerDictionarybaseURL = "https://www.dictionaryapi.com/api/v3/references/learners/json/";
-// const thesaurusApiKey = "969242a7-379c-400e-8c2b-e07bdc47843c";
-// const thesaurusBaseURL = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/";
 const resultPanel = document.querySelector("#result-panel");
-
 const searchType = document.querySelector("#search-type");
 const lookUpWord = document.querySelector("#search-box");
 const searchButton = document.querySelector("#search-button");
+
 searchButton.addEventListener("click", event => {
     event.preventDefault();
     const arrOfRespObjects = getDictionary(lookUpWord.value);
@@ -24,7 +22,7 @@ searchButton.addEventListener("click", event => {
             console.log(arr);            
         });
     }
-})
+});
 
 function getDictionary(word) {    
     return fetch(learnerDictionarybaseURL+word+"?key="+learnerDictionApiKey)
@@ -49,7 +47,7 @@ function displayShortDef(arrayOfObjects) {
             const para = document.createElement("li");
             para.textContent = strings;
             unorderedList.appendChild(para);
-        })       
+        });       
         shortDefDiv.appendChild(functionalLabel);
         shortDefDiv.appendChild(unorderedList);
         resultPanel.appendChild(shortDefDiv);
@@ -91,89 +89,94 @@ function displayDRP(arrOfRespObjs) {
                 resultPanel.appendChild(drpDiv);
                 
                 const drpdef = drp.def;            
-                drpdef.forEach(sseq => {                    
-                    const visUL = document. createElement("ul");
-                    visUL.className = "vis-ul";
+                drpdef.forEach(sseq => {
                     (sseq.sseq).forEach(array1 => {                                          
                         array1.forEach(sense => {
                             if(typeof(sense) === "object") {                                
                                 sense.forEach(a => {                  
-                                    if(typeof(a) === "object") {                                      
-                                        if(typeof(a.dt) === "object") {
-                                            const adt = a.dt;
-                                            adt.forEach(b => {
-                                                if(typeof(b[1]) == typeof("")) {                                                                                                   
-                                                    const phraseDefinition = document.createElement("li");
-                                                    phraseDefinition.className = "phrase-def";
-                                                    phraseDefinition.innerHTML = `<span class="phrase-def">phrase definition: </span>${b[1]}`;
-                                                    visUL.appendChild(phraseDefinition);
-                                                }
-                                                Array.from(b).forEach(c => {
-                                                    if(typeof(c[1]) == typeof("") && c[1].length > 3) {                                                        
-                                                        const phraseDefinition_1 = document.createElement("li");
-                                                        phraseDefinition_1.className = "phrase-def";
-                                                        phraseDefinition_1.innerHTML = `<span class="phrase-def"> phrase definition: </span>${c[1]}`;
-                                                        visUL.appendChild(phraseDefinition_1);
-                                                    }                                                                                                        
-                                                    if(typeof(c) === "object") {
-                                                        Array.from(c).forEach(d => {
-                                                            if(typeof(d[1]) == typeof("") && d[1].length > 5) {
-                                                                const phraseDefinition_0 = document.createElement("li");
-                                                                phraseDefinition_0.className = "phrase-def";
-                                                                phraseDefinition_0.innerHTML = `<span class="phrase-def"> phrase definition: </span>${d[1]}`;
-                                                                visUL.appendChild(phraseDefinition_0);
-                                                            }
-                                                            const firstVis = document.createElement("li");
-                                                            firstVis.className = "vis";
-                                                            if(typeof(d.t) == typeof("")) {                                                                    
-                                                                firstVis.innerHTML = `<span class="vis">verbal illustration: </span>${d.t}`;
-                                                                visUL.appendChild(firstVis);
-                                                                phraseOL.appendChild(visUL);
-                                                                drpDiv.appendChild(phraseOL);
-                                                                resultPanel.appendChild(drpDiv);
-                                                            }                                                                Array.from(d).forEach(e => {
-                                                            if(typeof(e[1]) == typeof("") && e[1].length > 3) {                                                                                                                                                  
-                                                                const phraseDefinition_2 = document.createElement("li");
-                                                                phraseDefinition_2.className = "phrase-def";
-                                                                phraseDefinition_2.innerHTML = `<span class="phrase-def"> phrase definition: </span>${e[1]}`;                                                                            visUL.appendChild(phraseDefinition_2);
-                                                            }                                                                        
-                                                            if(typeof(e) === "object") {
-                                                                Array.from(e).forEach(f => {                                                                                
-                                                                    if(typeof(f.t) == typeof("")) {
-                                                                        const ft = document.createElement("li");
-                                                                        ft.className = "vis";
-                                                                        ft.innerHTML = `<span class="vis">verbal illustration: </span>${f.t}`;
-                                                                        visUL.appendChild(ft);
-                                                                        phraseOL.appendChild(visUL);
-                                                                        drpDiv.appendChild(phraseOL);
-                                                                        resultPanel.appendChild(drpDiv);                                                                                                                                                       }                                                                                
-                                                                        if(typeof(f) === "object") {
-                                                                            Array.from(f).forEach(g => {                                                                                        
-                                                                                const gt = document.createElement("li");
-                                                                                gt.className = "vis";
-                                                                                if(typeof(g.t) == typeof("")) {
-                                                                                    gt.innerHTML = `<span class="vis">verbal illustration: </span>${g.t}`;
-                                                                                    visUL.appendChild(gt);                                                                                            phraseOL.appendChild(visUL);
-                                                                                    drpDiv.appendChild(phraseOL);
-                                                                                    resultPanel.appendChild(drpDiv);    
-                                                                                }                                                                                  
-                                                                            })
-                                                                        }                                                                                                                                                                                                                                            
-                                                                    })
-                                                                }
-                                                            }) 
-                                                        })                                                    
+                                    if(typeof(a) === "object") {
+                                        if(a.dt) {
+                                            if(typeof(a.dt) === "object") {
+                                                const visUL = document. createElement("ul");
+                                                visUL.className = "vis-ul";                                             
+                                                (a.dt).forEach(b => {
+                                                    if(typeof(b[1]) == typeof("")) {                                                                                                                                                          
+                                                        const phraseDefinition_0 = document.createElement("li");
+                                                        phraseDefinition_0.className = "phrase-def";
+                                                        phraseDefinition_0.innerHTML = `<span class="phrase-def">phrase definition: </span>${b[1]}`;
+                                                        visUL.appendChild(phraseDefinition_0);
                                                     }
-                                                })
-                                            })
+                                                    Array.from(b).forEach(c => {
+                                                        if(typeof(c[1]) == typeof("") && c[1].length > 3) {                                                        
+                                                            const phraseDefinition_1 = document.createElement("li");
+                                                            phraseDefinition_1.className = "phrase-def";
+                                                            phraseDefinition_1.innerHTML = `<span class="phrase-def"> phrase definition: </span>${c[1]}`;
+                                                            visUL.appendChild(phraseDefinition_1);
+                                                        }                                                                                                        
+                                                        if(typeof(c) === "object") {
+                                                            Array.from(c).forEach(d => {
+                                                                if(typeof(d[1]) == typeof("") && d[1].length > 5) {
+                                                                    const phraseDefinition_2 = document.createElement("li");
+                                                                    phraseDefinition_2.className = "phrase-def";
+                                                                    phraseDefinition_2.innerHTML = `<span class="phrase-def"> phrase definition: </span>${d[1]}`;
+                                                                    visUL.appendChild(phraseDefinition_2);
+                                                                }                                                            
+                                                                if(typeof(d.t) == typeof("")) {
+                                                                    const dt_0 = document.createElement("li");
+                                                                    dt_0.className = "vis";                                                                    
+                                                                    dt_0.innerHTML = `<span class="vis">verbal illustration: </span>${d.t}`;
+                                                                    visUL.appendChild(dt_0);
+                                                                    phraseOL.appendChild(visUL);
+                                                                    drpDiv.appendChild(phraseOL);
+                                                                    resultPanel.appendChild(drpDiv);
+                                                                }                                                                
+                                                                Array.from(d).forEach(e => {
+                                                                    if(typeof(e[1]) == typeof("") && e[1].length > 3) {                                                                                                                                                  
+                                                                        const phraseDefinition_3 = document.createElement("li");
+                                                                        phraseDefinition_3.className = "phrase-def";
+                                                                        phraseDefinition_3.innerHTML = `<span class="phrase-def"> phrase definition: </span>${e[1]}`;                                                                            
+                                                                        visUL.appendChild(phraseDefinition_3);
+                                                                    }                                                                        
+                                                                    if(typeof(e) === "object") {
+                                                                        Array.from(e).forEach(f => {                                                                                
+                                                                            if(typeof(f.t) == typeof("")) {
+                                                                                const ft_1 = document.createElement("li");
+                                                                                ft_1.className = "vis";
+                                                                                ft_1.innerHTML = `<span class="vis">verbal illustration: </span>${f.t}`;
+                                                                                visUL.appendChild(ft_1);
+                                                                                phraseOL.appendChild(visUL);
+                                                                                drpDiv.appendChild(phraseOL);
+                                                                                resultPanel.appendChild(drpDiv);                                                                                                                                                       
+                                                                            }                                                                                
+                                                                            if(typeof(f) === "object") {
+                                                                                Array.from(f).forEach(g => {                                                                          
+                                                                                    if(typeof(g.t) == typeof("")) {
+                                                                                        const gt_2 = document.createElement("li");
+                                                                                        gt_2.className = "vis";
+                                                                                        gt_2.innerHTML = `<span class="vis">verbal illustration: </span>${g.t}`;
+                                                                                        visUL.appendChild(gt_2);                                                                                            
+                                                                                        phraseOL.appendChild(visUL);
+                                                                                        drpDiv.appendChild(phraseOL);
+                                                                                        resultPanel.appendChild(drpDiv);    
+                                                                                    }                                                                                  
+                                                                                });                                                                            
+                                                                            }                                                                                                                                                                                                                                            
+                                                                        });
+                                                                    }
+                                                                }); 
+                                                            });                                                    
+                                                        }
+                                                    });
+                                                });
+                                            }
                                         }
                                     }
-                                }) 
+                                }); 
                             }                                                                                  
-                        })                                        
-                    })
-                })                        
-            })   
+                        });                                        
+                    });
+                });                        
+            });   
         }
-    })    
+    });    
 }

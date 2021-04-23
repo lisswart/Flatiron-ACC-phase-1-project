@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: antiquewhite;
+    background-color: gray;
 }
 
 #page-container {
@@ -27,7 +27,7 @@ body {
 }
 
 h1 {
-    background-color: aliceblue;
+    background-color: lemonchiffon;
     color: rgb(71, 63, 53);
     min-height: 400px;
     min-width: 400px;
@@ -67,6 +67,8 @@ h1 {
     min-height: 45px;
     padding: 5px;
     outline: none;
+    border: 1px solid rgb(223, 223, 162);
+    background-color: lemonchiffon;
     color: #5a5e5c;
     font-size: 20px;
     text-align: center;
@@ -87,7 +89,6 @@ h1 {
 .short-definition-div {
     background-color: antiquewhite;
     border-left: 1pc solid rgba(28, 170, 206, 0.87);
-
     margin-bottom: 1pc;
     margin-left: 5em;
     margin-right: 5em;
