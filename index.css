@@ -107,7 +107,7 @@ h2 {
     color: crimson;
 }
 
-.hwi {
+h3.hwi {
     color:cornflowerblue;
 }
 
@@ -116,7 +116,7 @@ ul {
     padding-right: 5em;
 }
 
-.fl {
+li.fl {
     list-style: none;
     color:brown;
     text-align: center;
@@ -192,6 +192,11 @@ li.drp {
     padding-bottom: 0;
 }
 
+li.phrase-def {
+    list-style-position: outside;
+    padding-left: 0.7em;
+}
+
 li.vis {
     margin-left: 3em;
     margin-top: 0;
@@ -223,4 +228,8 @@ span.short-def-span {
 
 span.syn-span {
     color:rgb(1, 143, 32);
+}
+
+span.phrase-def {
+    color: rgb(250, 2, 155);
 }
