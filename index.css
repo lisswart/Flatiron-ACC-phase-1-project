@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: gray;
+    background-color: lemonchiffon;
 }
 
 #page-container {
@@ -103,6 +103,11 @@ h3.hwi {
     color:cornflowerblue;
 }
 
+h3.def-hw {
+    margin-left: 5em;
+    color: cornflowerblue;
+}
+
 ul {
     margin-left: 5em;
     padding-right: 5em;
@@ -112,7 +117,10 @@ li.fl {
     list-style: none;
     color:brown;
     text-align: center;
+    margin-top: 1.75em;
 }
+
+
 
 li {
     padding-top: 1em;
@@ -210,4 +218,19 @@ span.short-def-span {
 
 span.phrase-def {
     color: rgb(250, 2, 155);
+}
+
+li.def-text {
+    margin-left: 5em;
+    margin-right: 1.5em;    
+}
+
+div.def-div {
+    margin: 3em;
+    border: 5px solid coral;
+    padding-bottom: 2em;
+}
+
+div.def-div:last-of-type {
+    margin-bottom: 2em;
 }
