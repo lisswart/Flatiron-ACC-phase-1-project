@@ -50,15 +50,15 @@ h1 {
 #search-type {
     font-size: 20px;
     outline: none;
-    border: 1px solid #0105f5;
-    background-color: #0105f5;
+    border: 1px solid #01346ef8;
+    background-color: #01346ef8;
     color: cornsilk;
     padding-left: 2em;
     padding-right: 2em;
 }
 
 #search-type:focus {
-    background-color: #01346ef8;
+    background-color: #023e83f8;
     color:cornsilk;
 }
 
@@ -67,9 +67,9 @@ h1 {
     min-height: 45px;
     padding: 5px;
     outline: none;
-    border: 1px solid rgb(223, 223, 162);
+    border: 1px solid tomato;
     background-color: lemonchiffon;
-    color: #5a5e5c;
+    color: black;
     font-size: 20px;
     text-align: center;
 }
@@ -77,8 +77,8 @@ h1 {
 #search-button {
     min-width: 100px;
     height: inherit;
-    border: 1px solid #0105f5;
-    background-color: #0105f5;
+    border: 1px solid #01346ef8;
+    background-color: #01346ef8;
     text-align: center;
     color: #fff;
     cursor: pointer;
@@ -86,8 +86,9 @@ h1 {
     outline: none;
 }
 
-.short-definition-div {
+div.short-definition-div {
     border-left: 1pc solid rgba(28, 170, 206, 0.87);
+    border-bottom: 1pc solid tomato;
     margin-bottom: 1pc;
     margin-left: 5em;
     margin-right: 5em;
@@ -116,7 +117,7 @@ li.fl {
     list-style: none;
     color:brown;
     text-align: center;
-    margin-top: 1.75em;
+    margin-top: 1em;
 }
 
 
@@ -142,9 +143,11 @@ footer {
     align-items: center;
 }
 
-.drp-div {
+div.drp-div {
     border-left: 1pc solid rgba(12, 99, 121, 0.87);
-    margin-bottom: 1pc;
+    border-bottom: 1pc solid chocolate;
+    margin-top: 2em;
+    margin-bottom: 2em;
     margin-left: 5em;
     margin-right: 5em;
     padding-bottom: 1em;
@@ -154,8 +157,8 @@ div.drp-div  h3.hwi {
     color:cornflowerblue;
 }
 
-.drp-div:last-of-type {
-    margin-bottom: 2.5rem;
+div.drp-div:last-of-type {
+    margin-bottom: 5em;
 }
 
 li.short-def, li.synonyms {
@@ -177,6 +180,10 @@ li.drp {
     padding-bottom: 0;
 }
 
+li.drp:last-of-type {
+    margin-bottom: 2em;
+}
+
 li.phrase-def {
     list-style-position: outside;
     padding-left: 0.7em;
@@ -190,6 +197,10 @@ li.vis {
     margin-bottom: 0;
     padding-left: 0.5em;
     list-style-type: disc;
+}
+
+li.vis:last-of-type {
+    padding-bottom: 2em;
 }
 
 li.vis::marker {
@@ -230,5 +241,5 @@ div.def-div {
 }
 
 div.def-div:last-of-type {
-    margin-bottom: 2em;
+    margin-bottom: 5em;
 }
