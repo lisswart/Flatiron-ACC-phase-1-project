@@ -9,6 +9,7 @@ MVP :
 3. [x] users should be able to search for another word by typing a different keyword in the search box, and when they hit submit, information about the most recent searched word should replace the information of previously-searched word, without reloading the page, i.e. solely by modifying the DOM.
 
 STRETCH :
+
 4. [x] users should be able to type in a word and have the option to search for short definition, or full definition, or defined run-on phrases, or 
 
 5. [ ] to look in thesaurus and retrieve a list of synonyms and antonyms
