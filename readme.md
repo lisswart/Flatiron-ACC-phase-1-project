@@ -12,11 +12,12 @@ STRETCH :
 
 4. [x] users should be able to type in a word and have the option to search for short definition, or full definition, or defined run-on phrases, or 
 
-5. [ ] to look in thesaurus and retrieve a list of synonyms and antonyms
+5. [-] to look in thesaurus and retrieve a list of synonyms and antonyms
 
 
 API used: 
 https://www.dictionaryapi.com/products/api-learners-dictionary
+Query options:  headwords, stems
 
 
 project is evaluated on the following six criteria:
