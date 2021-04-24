@@ -60,6 +60,64 @@ function displayShortDef(arrayOfObjects) {
     });
 }
 
+function displayDef(arrayOfObjects) {
+    resultPanel.innerHTML = "";
+    arrayOfObjects.forEach(resp => {
+        const defDiv = document.createElement("div");
+        defDiv.className = "def-div";
+        const orderedList = document.createElement("ol");
+        orderedList.className = "ol";
+        const functionalLabel = document.createElement("li");
+        functionalLabel.className = "fl";
+        functionalLabel.textContent = resp.fl;
+        const headword = document.createElement("h3");
+        headword.className = "def-hw";
+        headword.textContent = resp.hwi.hw;
+        defDiv.appendChild(functionalLabel);
+        defDiv.appendChild(headword);
+        
+        const objDef = resp.def;
+        if(typeof(objDef) === "object") {
+            objDef.forEach(defArray => {
+                const sseq = defArray.sseq;
+                sseq.forEach(sense => {
+                    sense.forEach(senseLayer => {
+                        senseLayer.forEach(dt => {
+                            const t = dt.dt;
+                            if(typeof(t) === "object") {
+                                t.forEach(t_0 => {
+                                    t_0.forEach(textvis => {
+                                        if(typeof(textvis) === "string" && textvis.length > 10) {                                            
+                                            const defText = document.createElement("li");
+                                            defText.className = "def-text";
+                                            defText.textContent = textvis;
+                                            orderedList.appendChild(defText);
+                                            defDiv.appendChild(orderedList);
+                                            resultPanel.appendChild(defDiv);
+                                        }
+                                        const visUL = document.createElement("ul");
+                                        Array.from(textvis).forEach(vis => {
+                                            if(typeof(vis) != typeof("")) {                                                
+                                                const vis_t = document.createElement("li");
+                                                vis_t.className = "vis";
+                                                vis_t.textContent = vis.t;
+                                                visUL.appendChild(vis_t);
+                                                orderedList.appendChild(visUL);
+                                                defDiv.appendChild(orderedList);
+                                                resultPanel.appendChild(defDiv);
+                                            }
+                                        })
+                                    })
+                                })
+                            }
+                        })
+                    })               
+                })
+            })
+        }
+    })
+}
+
 function displayDRP(arrOfRespObjs) {
     resultPanel.innerHTML = "";
     arrOfRespObjs.forEach(respObj => {        
@@ -188,68 +246,4 @@ function dtTrooper(drpDiv, phraseOL, a) {
             });
         });
     }
-}
-
-function displayDef(arrayOfObjects) {
-    resultPanel.innerHTML = "";
-    arrayOfObjects.forEach(resp => {
-        const defDiv = document.createElement("div");
-        defDiv.className = "def-div";
-        const orderedList = document.createElement("ol");
-        orderedList.className = "ol";
-        const functionalLabel = document.createElement("li");
-        functionalLabel.className = "fl";
-        functionalLabel.textContent = resp.fl;
-        const headword = document.createElement("h3");
-        headword.className = "def-hw";
-        headword.textContent = resp.hwi.hw;
-        defDiv.appendChild(functionalLabel);
-        defDiv.appendChild(headword);
-        
-        const objDef = resp.def;
-        if(typeof(objDef) === "object") {
-            objDef.forEach(defArray => {
-                const sseq = defArray.sseq;
-                sseq.forEach(sense => {
-                    //console.log(sense);
-                    sense.forEach(senseLayer => {
-                        senseLayer.forEach(dt => {
-                            //console.log(dt.dt);
-                            const t = dt.dt;
-                            if(typeof(t) === "object") {
-                                t.forEach(t_0 => {                               
-                                    //console.log(t_0);
-                                    t_0.forEach(textvis => {
-                                        //console.log(textvis);
-                                        if(typeof(textvis) === "string" && textvis.length > 10) {
-                                            console.log(textvis);
-                                            const defText = document.createElement("li");
-                                            defText.className = "def-text";
-                                            defText.textContent = textvis;
-                                            orderedList.appendChild(defText);
-                                            defDiv.appendChild(orderedList);
-                                            resultPanel.appendChild(defDiv);
-                                        }
-                                        const visUL = document.createElement("ul");
-                                        Array.from(textvis).forEach(vis => {
-                                            if(typeof(vis) != typeof("")) {
-                                                console.log(vis.t);
-                                                const vis_t = document.createElement("li");
-                                                vis_t.className = "vis";
-                                                vis_t.textContent = vis.t;
-                                                visUL.appendChild(vis_t);
-                                                orderedList.appendChild(visUL);
-                                                defDiv.appendChild(orderedList);
-                                                resultPanel.appendChild(defDiv);
-                                            }
-                                        })
-                                    })
-                                })
-                            }
-                        })
-                    })               
-                })
-            })
-        }
-    })
 }

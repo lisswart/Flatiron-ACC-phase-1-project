@@ -58,7 +58,7 @@ h1 {
 }
 
 #search-type:focus {
-    background-color: #0477faf8;
+    background-color: #01346ef8;
     color:cornsilk;
 }
 
@@ -87,7 +87,6 @@ h1 {
 }
 
 .short-definition-div {
-    background-color: antiquewhite;
     border-left: 1pc solid rgba(28, 170, 206, 0.87);
     margin-bottom: 1pc;
     margin-left: 5em;
@@ -144,7 +143,6 @@ footer {
 }
 
 .drp-div {
-    background-color: antiquewhite;
     border-left: 1pc solid rgba(12, 99, 121, 0.87);
     margin-bottom: 1pc;
     margin-left: 5em;
