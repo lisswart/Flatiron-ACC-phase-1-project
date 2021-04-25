@@ -242,3 +242,8 @@ div.def-div {
 div.def-div:last-of-type {
     margin-bottom: 5em;
 }
+
+div.syn-div {
+    margin-left: 5em;
+    padding-left: 5em;
+}

@@ -15,8 +15,10 @@ STRETCH :
 5. [ ] to look in thesaurus and retrieve a list of synonyms and antonyms
 
 
-API used: 
+API used:
+ 
 https://www.dictionaryapi.com/products/api-learners-dictionary
+
 Query options:  headwords, stems
 
 

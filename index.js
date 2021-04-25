@@ -2,39 +2,109 @@ console.log("Hi");
 
 const learnerDictionApiKey = "3248df3e-261a-4346-bf3d-e4d8e4480e1e";
 const learnerDictionarybaseURL = "https://www.dictionaryapi.com/api/v3/references/learners/json/";
+const thesaurusAPIkey = "969242a7-379c-400e-8c2b-e07bdc47843c";
+const thesaurusBaseURL = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/";
 const resultPanel = document.querySelector("#result-panel");
 const searchType = document.querySelector("#search-type");
 const lookUpWord = document.querySelector("#search-box");
 const searchButton = document.querySelector("#search-button");
-
+        
 searchButton.addEventListener("click", event => {
-    event.preventDefault();
-    const arrOfRespObjects = getDictionary(lookUpWord.value);
+    event.preventDefault();    
     if(searchType.value === "short-def") {
+        const arrOfRespObjects = getDictionary(lookUpWord.value);
         arrOfRespObjects.then( arr => {
-            displayShortDef(arr);
-            console.log(arr);
+        displayShortDef(arr);
+        console.log(arr);
         });
     }    
     else if(searchType.value === "dros") {
+        const arrOfRespObjects = getDictionary(lookUpWord.value);
         arrOfRespObjects.then(arr => {
             displayDRP(arr);
             console.log(arr);            
         })
     }
     else if(searchType.value === "def") {
+        const arrOfRespObjects = getDictionary(lookUpWord.value);
         arrOfRespObjects.then(arr => {
             displayDef(arr);
             console.log(arr);
         })
     }
+    else if(searchType.value === "syn") {
+        const arrOfRespObjects = getThesaurus(lookUpWord.value);
+        arrOfRespObjects.then(arr => {
+            displaySynonyms(arr);
+            console.log(arr);
+        });
+    }
+    else if(searchType.value === "ant") {
+        const arrOfRespObjects = getThesaurus(lookUpWord.value);
+        arrOfRespObjects.then(arr => {
+            displayAntonyms(arr);
+            console.log(arr);
+        });        
+    }
 });
 
-function getDictionary(word) {    
-    return fetch(learnerDictionarybaseURL+word+"?key="+learnerDictionApiKey)
-        .then(resp => resp.json());
+function getThesaurus(word) {
+    return fetch(`${thesaurusBaseURL}${word}?key=${thesaurusAPIkey}`)
+            .then(resp => resp.json());
 }
 
+function displaySynonyms(arrayOfObjects) {
+    resultPanel.innerHTML = "";
+    arrayOfObjects.forEach(object => {
+        const synDiv = document.createElement("div");
+        synDiv.className = "syn-div";
+        const functionalLabel = document.createElement("li");
+        functionalLabel.className = "fl";
+        functionalLabel.textContent = object.fl;
+        const headword = document.createElement("h3");
+        headword.className = "hwi";
+        headword.textContent = object.hwi.hw;
+        console.log(headword);
+        const shortDef = document.createElement("li");
+        shortDef.className = "short-def";
+        shortDef.textContent = object.shortdef;
+        console.log(shortDef);
+        synDiv.append(functionalLabel, headword, shortDef);
+        resultPanel.appendChild(synDiv);
+        const synKey = object.meta.syns;
+        synKey.forEach(arrOfSyn => {
+            console.log(arrOfSyn);
+            const synGroupUL = document.createElement("ul");
+            arrOfSyn.forEach(synStrings => {
+                console.log(synStrings);
+                const synGroup = document.createElement("li");
+                synGroup.className = "syn-group";
+                synGroup.textContent = synStrings;
+                synGroupUL.appendChild(synGroup);
+            });
+            synDiv.appendChild(synGroupUL);
+            resultPanel.appendChild(synDiv);            
+        });
+        // const synUL = document.createElement("ul");
+        // synUL.className = "syn-ul";
+        // synUL.textContent = object.meta.syns;//this is an array of arrays of strings
+        // const synOL = document.createElement("ol");
+        // synOL.className = "syn-ol";
+    });
+}
+
+function displayAntonyms(arrayOfObjects) {
+    resultPanel.innerHTML = "";
+    arrayOfObjects.forEach(object => {
+
+    });
+}
+        
+function getDictionary(word) {    
+    return fetch(learnerDictionarybaseURL+word+"?key="+learnerDictionApiKey)
+            .then(resp => resp.json());
+}
+        
 function displayShortDef(arrayOfObjects) {
     resultPanel.innerHTML = "";
     arrayOfObjects.forEach(object => {
@@ -59,7 +129,7 @@ function displayShortDef(arrayOfObjects) {
         resultPanel.appendChild(shortDefDiv);
     });
 }
-
+        
 function displayDef(arrayOfObjects) {
     resultPanel.innerHTML = "";
     arrayOfObjects.forEach(resp => {
@@ -75,19 +145,19 @@ function displayDef(arrayOfObjects) {
         headword.textContent = resp.hwi.hw;
         defDiv.appendChild(functionalLabel);
         defDiv.appendChild(headword);
-        
+                
         const objDef = resp.def;
-        if(typeof(objDef) === "object") {
+        if(typeof(objDef) === typeof([])) {
             objDef.forEach(defArray => {
                 const sseq = defArray.sseq;
                 sseq.forEach(sense => {
                     sense.forEach(senseLayer => {
                         senseLayer.forEach(dt => {
                             const t = dt.dt;
-                            if(typeof(t) === "object") {
+                            if(typeof(t) === typeof([])) {
                                 t.forEach(t_0 => {
                                     t_0.forEach(textvis => {
-                                        if(typeof(textvis) === "string" && textvis.length > 10) {                                            
+                                        if(typeof(textvis) === typeof("") && textvis.length > 10) {                                            
                                             const defText = document.createElement("li");
                                             defText.className = "def-text";
                                             defText.textContent = textvis;
@@ -117,7 +187,7 @@ function displayDef(arrayOfObjects) {
         }
     })
 }
-
+        
 function displayDRP(arrOfRespObjs) {
     resultPanel.innerHTML = "";
     arrOfRespObjs.forEach(respObj => {        
@@ -125,7 +195,7 @@ function displayDRP(arrOfRespObjs) {
         drpDiv.className = "drp-div";
         const unorderedList = document.createElement("ul");
         unorderedList.className = "ul";
-
+        
         const functionalLabel = document.createElement("li");
         functionalLabel.className = "fl";
         functionalLabel.textContent = respObj.fl;        
@@ -133,16 +203,16 @@ function displayDRP(arrOfRespObjs) {
         headword.className = "hwi";
         headword.textContent = respObj.hwi.hw;
         drpDiv.appendChild(functionalLabel);                
-        
+                
         if(respObj.dros) {
             unorderedList.appendChild(headword);
             drpDiv.appendChild(unorderedList);                       
             resultPanel.appendChild(drpDiv);
-            
+                    
             const phraseOL = document.createElement("ol");
             phraseOL.className = "ordered-list";
             phraseOL.classList.add = "phrases";
-
+        
             const dros = respObj.dros;
             dros.forEach(drp => {
                 const drPhrase = document.createElement("li");
@@ -157,14 +227,14 @@ function displayDRP(arrOfRespObjs) {
         }
     });    
 }
-
+        
 function getDrpDef(drpdef, drpDiv, phraseOL) {               
     drpdef.forEach(sseq => {
         (sseq.sseq).forEach(array1 => {                                          
             array1.forEach(sense => {
-                if(typeof(sense) === "object") {                                
+                if(typeof(sense) === typeof([])) {                                
                     sense.forEach(a => {                  
-                        if(typeof(a) === "object") {
+                        if(typeof(a) === typeof([])) {
                             if(a.dt) {
                                 dtTrooper(drpDiv, phraseOL, a);
                             }
@@ -175,14 +245,14 @@ function getDrpDef(drpdef, drpDiv, phraseOL) {
         });
     });
 }
-
+        
 function displayPhraseDefinition(text, visUL) {
     const phraseDefinition_0 = document.createElement("li");
     phraseDefinition_0.className = "phrase-def";
     phraseDefinition_0.innerHTML = `<span class="phrase-def">phrase definition: </span>${text}`;
     visUL.appendChild(phraseDefinition_0);
 }
-
+        
 function displayVerbalIllustrations(dt, visUL, phraseOL, drpDiv) {
     const dt_0 = document.createElement("li");
     dt_0.className = "vis";                                                                    
@@ -192,9 +262,9 @@ function displayVerbalIllustrations(dt, visUL, phraseOL, drpDiv) {
     drpDiv.appendChild(phraseOL);
     resultPanel.appendChild(drpDiv);
 }
-
+        
 function dtTrooper(drpDiv, phraseOL, a) {
-    if(typeof(a.dt) === "object") {
+    if(typeof(a.dt) === typeof([])) {
         const visUL = document. createElement("ul");
         visUL.className = "vis-ul";                                             
         (a.dt).forEach(b => {
@@ -205,7 +275,7 @@ function dtTrooper(drpDiv, phraseOL, a) {
                 if(typeof(c[1]) == typeof("") && c[1].length > 3) {
                     displayPhraseDefinition(c[1], visUL);
                 }                                                                                                        
-                if(typeof(c) === "object") {
+                if(typeof(c) === typeof([])) {
                     c.forEach(d => {
                         if(typeof(d[1]) == typeof("") && d[1].length > 5) {
                             displayPhraseDefinition(d[1], visUL);
@@ -221,13 +291,13 @@ function dtTrooper(drpDiv, phraseOL, a) {
                             if(typeof(e[1]) == typeof("") && e[1].length > 3) {
                                 displayPhraseDefinition(e[1], visUL);
                             }                                                                        
-                            if(typeof(e) === "object") {
+                            if(typeof(e) === typeof([])) {
                                 e.forEach(f => {                                                                                
                                     if(typeof(f.t) == typeof("")) {
                                         const ft = f.t;
                                         displayVerbalIllustrations(ft, visUL, phraseOL, drpDiv);                                                                                                                                   
                                     }                                                                                
-                                    if(typeof(f) === "object") {
+                                    if(typeof(f) === typeof([])) {
                                         //error thrown: "f.forEach is not a function"
                                         //reason: f is an array-like iterable object but not an array per se
                                         //fix: utilize Array.from(arraylike) to convert an array-like object to an array 

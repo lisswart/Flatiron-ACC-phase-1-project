@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
-    <script src="index.js" defer></script>
+    <script src="index.js" defer></script>    
     <title>Merriam-Webster</title>
 </head>
 <body>
@@ -22,11 +22,19 @@
             <form>
                 <div id="search-div">
                     <select id="search-type">
-                        <option value="">Search for ...</option>
-                        <option value="short-def">short definition</option>
-                        <option value="def">definition</option>
-                        <option value="dros">defined run-on phrases</option>
-                        <!-- <option value="thesaurus">synonyms</option> -->
+                        <option value="">Search in ...
+                            <optgroup label="Dictionary">
+                                <!-- <option value="">Search for ...</option> -->
+                                <option value="short-def">short definition</option>
+                                <option value="def">definition</option>
+                                <option value="dros">defined run-on phrases</option>
+                            </optgroup>
+                            <optgroup label="Thesaurus">
+                                <!-- <option value="">Search for ...</option>                                                                -->
+                                <option value="syn">synonyms</option>
+                                <option value="ant">antonyms</option>
+                            </optgroup>
+                        </option>
                     </select>
                     <input type="text" id="search-box">
                     <input type="submit" id="search-button" value="Search">
