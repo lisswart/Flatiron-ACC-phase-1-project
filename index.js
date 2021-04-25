@@ -36,7 +36,7 @@ searchButton.addEventListener("click", event => {
         const arrOfRespObjects = getThesaurus(lookUpWord.value);
         arrOfRespObjects.then(arr => {
             displaySynonyms(arr);
-            //console.log(arr);
+            console.log(arr);
         });
     }
     else if(searchType.value === "ant") {
@@ -101,21 +101,24 @@ function displaySynonyms(arrayOfObjects) {
                                     });
                                 }
                             });
-                            //console.log(dtsyn.syn_list);
-                            (dtsyn.syn_list).forEach(synValue => {
-                                //console.log(synValue);
-                                const synonymListIntro = document.createElement("ul");
-                                synonymListIntro.className = "syn-list-ul";
-                                synValue.forEach(synObj => {
-                                    console.log("synonym: " + synObj.wd);
-                                    const synWd = document.createElement("li");
-                                    synWd.className = "syn-word";
-                                    synWd.textContent = synObj.wd;
-                                    synonymListIntro.appendChild(synWd);
+                            console.log(dtsyn.syn_list);
+                            if(typeof(dtsyn.syn_list) === typeof([])) {
+                                (dtsyn.syn_list).forEach(synValue => {
+                                    //console.log(synValue);
+                                    const synonymListIntro = document.createElement("ul");
+                                    synonymListIntro.className = "syn-list-ul";
+                                    synonymListIntro.innerHTML = `<span class="syn-intro">synonyms: </span>`;
+                                    synValue.forEach(synObj => {
+                                        console.log("synonym: " + synObj.wd);
+                                        const synWd = document.createElement("li");
+                                        synWd.className = "syn-word";
+                                        synWd.textContent = synObj.wd;
+                                        synonymListIntro.appendChild(synWd);
+                                    })
+                                    synDiv.appendChild(synonymListIntro);
+                                    resultPanel.appendChild(synDiv);
                                 })
-                                synDiv.appendChild(synonymListIntro);
-                                resultPanel.appendChild(synDiv);
-                            })
+                            }
                         }
                     })                    
                 })                

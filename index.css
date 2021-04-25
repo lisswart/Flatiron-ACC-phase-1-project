@@ -252,6 +252,32 @@ p {
     font-size: 16px;
 }
 
+p.syn-vis {
+    margin-bottom: 2em;
+}
+
 li.syn-word {
     font-size: 16px;
+}
+
+ul.syn-list-ul {
+    font-size: 16px;
+    color: crimson;
+}
+
+span.syn-intro, span.def-syn-group, span.syn-vis {
+    color:darkmagenta;
+    font-weight: 900;
+}
+
+div.syn-div {
+    border: 3px solid tomato;
+    margin-bottom: 2em;
+    margin-right: 2em;
+    padding-bottom: 3em;
+    padding-left: 2em;
+}
+
+div.syn-div:last-of-type {
+    margin-bottom: 5em;
 }
