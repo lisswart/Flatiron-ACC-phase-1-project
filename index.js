@@ -36,7 +36,7 @@ searchButton.addEventListener("click", event => {
         const arrOfRespObjects = getThesaurus(lookUpWord.value);
         arrOfRespObjects.then(arr => {
             displaySynonyms(arr);
-            console.log(arr);
+            //console.log(arr);
         });
     }
     else if(searchType.value === "ant") {
@@ -47,6 +47,11 @@ searchButton.addEventListener("click", event => {
         });        
     }
 });
+
+function getDictionary(word) {    
+    return fetch(learnerDictionarybaseURL+word+"?key="+learnerDictionApiKey)
+            .then(resp => resp.json());
+}
 
 function getThesaurus(word) {
     return fetch(`${thesaurusBaseURL}${word}?key=${thesaurusAPIkey}`)
@@ -65,31 +70,57 @@ function displaySynonyms(arrayOfObjects) {
         headword.className = "hwi";
         headword.textContent = object.hwi.hw;
         console.log(headword);
-        const shortDef = document.createElement("li");
-        shortDef.className = "short-def";
-        shortDef.textContent = object.shortdef;
-        console.log(shortDef);
-        synDiv.append(functionalLabel, headword, shortDef);
-        resultPanel.appendChild(synDiv);
-        const synKey = object.meta.syns;
-        synKey.forEach(arrOfSyn => {
-            console.log(arrOfSyn);
-            const synGroupUL = document.createElement("ul");
-            arrOfSyn.forEach(synStrings => {
-                console.log(synStrings);
-                const synGroup = document.createElement("li");
-                synGroup.className = "syn-group";
-                synGroup.textContent = synStrings;
-                synGroupUL.appendChild(synGroup);
-            });
-            synDiv.appendChild(synGroupUL);
-            resultPanel.appendChild(synDiv);            
-        });
-        // const synUL = document.createElement("ul");
-        // synUL.className = "syn-ul";
-        // synUL.textContent = object.meta.syns;//this is an array of arrays of strings
-        // const synOL = document.createElement("ol");
-        // synOL.className = "syn-ol";
+        //console.log(object.def);
+        (object.def).forEach(defObject => {
+            (defObject.sseq).forEach(sense => {
+                //console.log(sense);
+                sense.forEach(defvis => {
+                    //console.log(defvis);
+                    defvis.forEach(dtsyn => {
+                        //console.log(dtsyn);
+                        if(typeof(dtsyn) === typeof({})) {
+                            //console.log(dtsyn.dt);
+                            (dtsyn.dt).forEach(dtValue => {
+                                //console.log(dtValue);
+                                if(typeof(dtValue[1]) === typeof("")) {
+                                    console.log("definition: " + dtValue[1]);
+                                    const definition = document.createElement("p");
+                                    definition.className = "def-syn-group";
+                                    definition.innerHTML = `<span class="def-syn-group">definition: </span>${dtValue[1]}`;
+                                    synDiv.append(functionalLabel, headword, definition);
+                                    resultPanel.appendChild(synDiv);
+                                }
+                                if(typeof(dtValue[1]) === typeof([])) {
+                                    dtValue[1].forEach(t => {
+                                        console.log("verbal illustration: " + t.t);
+                                        const vis = document.createElement("p");
+                                        vis.className = "syn-vis";
+                                        vis.innerHTML= `<span class="syn-vis">verbal illustration: </span>${t.t}`;
+                                        synDiv.appendChild(vis);
+                                        resultPanel.appendChild(synDiv);
+                                    });
+                                }
+                            });
+                            //console.log(dtsyn.syn_list);
+                            (dtsyn.syn_list).forEach(synValue => {
+                                //console.log(synValue);
+                                const synonymListIntro = document.createElement("ul");
+                                synonymListIntro.className = "syn-list-ul";
+                                synValue.forEach(synObj => {
+                                    console.log("synonym: " + synObj.wd);
+                                    const synWd = document.createElement("li");
+                                    synWd.className = "syn-word";
+                                    synWd.textContent = synObj.wd;
+                                    synonymListIntro.appendChild(synWd);
+                                })
+                                synDiv.appendChild(synonymListIntro);
+                                resultPanel.appendChild(synDiv);
+                            })
+                        }
+                    })                    
+                })                
+            })
+        })        
     });
 }
 
@@ -98,11 +129,6 @@ function displayAntonyms(arrayOfObjects) {
     arrayOfObjects.forEach(object => {
 
     });
-}
-        
-function getDictionary(word) {    
-    return fetch(learnerDictionarybaseURL+word+"?key="+learnerDictionApiKey)
-            .then(resp => resp.json());
 }
         
 function displayShortDef(arrayOfObjects) {

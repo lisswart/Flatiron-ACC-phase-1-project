@@ -247,3 +247,11 @@ div.syn-div {
     margin-left: 5em;
     padding-left: 5em;
 }
+
+p {
+    font-size: 16px;
+}
+
+li.syn-word {
+    font-size: 16px;
+}
