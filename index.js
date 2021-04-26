@@ -95,6 +95,9 @@ function displaySynonyms(arrayOfObjects) {
                             });                            
                             if(typeof(dtsyn.syn_list) === typeof([])) {
                                 (dtsyn.syn_list).forEach(synValue => {
+                                    if(searchType.value !== object.hwi.hw) {
+                                        alert("there is no synonym list associated with the word you just entered, below is a of related words and their synonyms")
+                                    }
                                     const synonymListIntro = document.createElement("ul");
                                     synonymListIntro.className = "syn-list-ul";
                                     synonymListIntro.innerHTML = `<span class="syn-intro">a list of synonyms: </span>`;
@@ -113,10 +116,6 @@ function displaySynonyms(arrayOfObjects) {
                                 });
                             }
                         }
-                        // synOL.appendChild(synDiv);
-                        // resultPanel.appendChild(synOL);
-                        // synOL.appendChild(synDiv);
-                        // resultPanel.appendChild(synOL);
                     });                    
                 });                
             });
