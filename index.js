@@ -24,14 +24,14 @@ searchButton.addEventListener("click", event => {
         arrOfRespObjects.then(arr => {
             displayDRP(arr);
             console.log(arr);            
-        })
+        });
     }
     else if(searchType.value === "def") {
         const arrOfRespObjects = getDictionary(lookUpWord.value);
         arrOfRespObjects.then(arr => {
             displayDef(arr);
             console.log(arr);
-        })
+        });
     }
     else if(searchType.value === "syn") {
         const arrOfRespObjects = getThesaurus(lookUpWord.value);
@@ -60,6 +60,93 @@ function getThesaurus(word) {
 }
 
 function displaySynonyms(arrayOfObjects) {
+    resultPanel.innerHTML = "";
+    arrayOfObjects.forEach(object => {
+        const synDiv_0 = document.createElement("div");
+        synDiv_0.className = "syn-div-0";
+        const functionalLabel = document.createElement("p");
+        functionalLabel.className = "fl";
+        functionalLabel.textContent = object.fl;
+        const headword = document.createElement("h3");
+        headword.className = "hwi";
+        headword.textContent = object.hwi.hw;
+        synDiv_0.append(functionalLabel, headword);
+        (object.def).forEach(defObject => {
+            (defObject.sseq).forEach(sense => {
+                sense.forEach(defvis => {
+                    defvis.forEach(dtsyn => {
+                        const synOL = document.createElement("ol");
+                        synOL.className = "syn-ol";   
+                        if(typeof(dtsyn) === typeof({})) {                                                      
+                            (dtsyn.dt).forEach(dtValue => {                                                              
+                                if(typeof(dtValue[1]) === typeof("")) {
+                                    // if(searchType.value !== object.hwi.hw) {
+                                    //     alert("there is no synonym list associated with the word you just entered, below is a list of related words and their synonyms")
+                                    // }                                    
+                                    const definition = document.createElement("li");
+                                    definition.className = "def-syn-group";
+                                    definition.innerHTML = `<span class="def-syn-group">definition: </span>${dtValue[1]}`;
+                                    synDiv_0.appendChild(definition);
+                                }
+                                if(typeof(dtValue[1]) === typeof([])) {
+                                    dtValue[1].forEach(t => {
+                                        const vis = document.createElement("p");
+                                        vis.className = "syn-vis";
+                                        vis.innerHTML= `<span class="syn-vis">verbal illustration: </span>${t.t}`;
+                                        synDiv_0.appendChild(vis);
+                                    });
+                                }
+                                synOL.appendChild(synDiv_0);
+                                resultPanel.appendChild(synOL);
+                            });
+                            const synDiv_1 = document.createElement("div");
+                            synDiv_1.className = "syn-div-1";
+                            if(typeof(dtsyn.syn_list) === typeof([])) {
+                                (dtsyn.syn_list).forEach(synValue => {
+                                    const synonymListIntro = document.createElement("ul");
+                                    synonymListIntro.className = "syn-list-ul";
+                                    synonymListIntro.innerHTML = `<span class="syn-intro">a list of synonyms: </span>`;
+                                    synValue.forEach(synObj => {
+                                        const synWd = document.createElement("li");
+                                        synWd.className = "syn-word";
+                                        synWd.textContent = synObj.wd;
+                                        synonymListIntro.appendChild(synWd);
+                                    });
+                                    synDiv_1.appendChild(synonymListIntro);
+                                    synDiv_0.appendChild(synDiv_1);
+                                    synOL.appendChild(synDiv_0);
+                                    resultPanel.appendChild(synOL);
+                                });
+                            }
+                            if(typeof(dtsyn.near_list) === typeof([])) {
+                                (dtsyn.near_list).forEach(nearAnt => {
+                                    const nearAntListIntro = document.createElement("ul");
+                                    nearAntListIntro.className = "near-ant-ul";
+                                    nearAntListIntro.innerHTML = `<span class="near-ant-intro">a list of near antonyms: </span>`;
+                                    nearAnt.forEach(nearAntObj => {
+                                        const nearAntWd = document.createElement("li");
+                                        nearAntWd.className = "near-ant-word";
+                                        nearAntWd.textContent = nearAntObj.wd;
+                                        nearAntListIntro.appendChild(nearAntWd);
+                                    });
+                                    synDiv_1.appendChild(nearAntListIntro);
+                                    synDiv_0.appendChild(synDiv_1);
+                                    synOL.appendChild(synDiv_0);
+                                    resultPanel.appendChild(synOL);
+                                });
+                            }
+                            if(typeof(dtsyn.ant_list) === typeof([])) {
+
+                            }
+                        }
+                    });                    
+                });                
+            });
+        });        
+    });
+}
+
+function displayAntonyms(arrayOfObjects) {
     resultPanel.innerHTML = "";
     arrayOfObjects.forEach(object => {
         const synDiv = document.createElement("div");
@@ -96,7 +183,9 @@ function displaySynonyms(arrayOfObjects) {
                                         synDiv.appendChild(vis);
                                     });
                                 }
-                            });                            
+                            });
+                            const synAntRelNearContainer = document.createElement("div");
+                            synAntRelNearContainer.className = "syn-ant-rel-near-container";
                             if(typeof(dtsyn.syn_list) === typeof([])) {
                                 (dtsyn.syn_list).forEach(synValue => {
                                     const synonymListIntro = document.createElement("ul");
@@ -108,7 +197,8 @@ function displaySynonyms(arrayOfObjects) {
                                         synWd.textContent = synObj.wd;
                                         synonymListIntro.appendChild(synWd);
                                     });
-                                    synDiv.appendChild(synonymListIntro);
+                                    synAntRelNearContainer.appendChild(synonymListIntro);
+                                    synDiv.appendChild(synAntRelNearContainer);
                                     synOL.appendChild(synDiv);
                                     synOL.appendChild(synDiv);
                                     resultPanel.appendChild(synOL);
@@ -116,18 +206,34 @@ function displaySynonyms(arrayOfObjects) {
                                     resultPanel.appendChild(synOL);
                                 });
                             }
+                            if(typeof(dtsyn.near_list) === typeof([])) {
+                                (dtsyn.near_list).forEach(nearAnt => {
+                                    const nearAntListIntro = document.createElement("ul");
+                                    nearAntListIntro.className = "near-ant-ul";
+                                    nearAntListIntro.innerHTML = `<span class="near-ant-intro">a list of near antonyms: </span>`;
+                                    nearAnt.forEach(nearAntObj => {
+                                        const nearAntWd = document.createElement("li");
+                                        nearAntWd.className = "near-ant-word";
+                                        nearAntWd.textContent = nearAntObj.wd;
+                                        nearAntListIntro.appendChild(nearAntWd);
+                                    });
+                                    synAntRelNearContainer.appendChild(nearAntListIntro);
+                                    synDiv.appendChild(synAntRelNearContainer);
+                                    synOL.appendChild(synDiv);
+                                    synOL.appendChild(synDiv);
+                                    resultPanel.appendChild(synOL);
+                                    synOL.appendChild(synDiv);
+                                    resultPanel.appendChild(synOL);
+                                });
+                            }
+                            if(typeof(dtsyn.ant_list) === typeof([])) {
+
+                            }
                         }
                     });                    
                 });                
             });
         });        
-    });
-}
-
-function displayAntonyms(arrayOfObjects) {
-    resultPanel.innerHTML = "";
-    arrayOfObjects.forEach(object => {
-
     });
 }
         

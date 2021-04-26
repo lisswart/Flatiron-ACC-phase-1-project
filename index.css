@@ -111,6 +111,7 @@ h3.def-hw {
 ul {
     margin-left: 5em;
     padding-right: 5em;
+    padding-bottom: 0;
 }
 
 li.fl {
@@ -176,7 +177,9 @@ li.drp::marker {
 
 li.drp {
     margin-left: 4em;
-    padding-bottom: 0;
+    padding-bottom: 0;    
+    font-size: 16px;
+    font-family: monospace;
 }
 
 li.drp:last-of-type {
@@ -187,7 +190,10 @@ li.phrase-def {
     list-style-position: outside;
     padding-left: 0.7em;
     margin-left: 1.6em;
-    list-style-type:square;
+    margin-top: 1.5em;
+    list-style-type:square;    
+    font-size: 16px;
+    font-family: monospace;
 }
 
 li.vis {
@@ -195,12 +201,14 @@ li.vis {
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 0.5em;
-    list-style-type: disc;
+    list-style-type: disc;    
+    font-size: 16px;
+    font-family: monospace;
 }
 
-li.vis:last-of-type {
+/* li.vis:last-of-type {
     padding-bottom: 2em;
-}
+} */
 
 li.vis::marker {
     color: olivedrab;
@@ -231,6 +239,8 @@ span.phrase-def {
 li.def-text {
     margin-left: 5em;
     margin-right: 1.5em;    
+    font-size: 16px;
+    font-family: monospace;    
 }
 
 div.def-div {
@@ -244,12 +254,16 @@ div.def-div:last-of-type {
 }
 
 div.syn-div {
-    margin-left: 5em;
+    margin-left: 2em;
     padding-left: 5em;
 }
 
 li.def-syn-group {
     font-size: 16px;
+}
+
+li.def-syn-group::marker {
+    list-style-position: inside;
 }
 
 p.fl {
@@ -273,21 +287,46 @@ li.syn-word {
 ul.syn-list-ul {
     font-size: 16px;
     color: crimson;
+    margin-left: 1em;
+    padding-right: 0;
+    list-style: none;
+    /* list-style-position: inside; */
 }
 
-span.syn-intro, span.def-syn-group, span.syn-vis {
+span.syn-intro, span.def-syn-group, span.syn-vis, span.near-ant-intro {
     color:darkmagenta;
     font-weight: 900;
 }
 
-div.syn-div {
+div.syn-div-0 {
     border: 3px solid tomato;
     margin-bottom: 2em;
-    margin-right: 5em;
+    margin-left: 2em;
+    margin-right: 2em;
     padding-bottom: 3em;
-    padding-right: 2em;
+    padding-left: 5em;
+    padding-right: 1em;
+}
+
+div.syn-div-1 {
+    margin-left: 0;
+    display: flex;
+    flex-direction: row;
 }
 
 div.syn-div:last-of-type {
     margin-bottom: 5em;
+}
+
+li.near-ant-word {
+    font-size: 16px;
+}
+
+ul.near-ant-ul {
+    color: crimson;
+    font-size: 16px;
+    margin-left: 1em;
+    padding-right: 0;
+    list-style: none;
+    /* list-style-position: inside; */
 }
