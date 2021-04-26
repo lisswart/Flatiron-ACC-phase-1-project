@@ -273,9 +273,9 @@ span.syn-intro, span.def-syn-group, span.syn-vis {
 div.syn-div {
     border: 3px solid tomato;
     margin-bottom: 2em;
-    margin-right: 2em;
+    margin-right: 5em;
     padding-bottom: 3em;
-    padding-left: 2em;
+    padding-right: 2em;
 }
 
 div.syn-div:last-of-type {

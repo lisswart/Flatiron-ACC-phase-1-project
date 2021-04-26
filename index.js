@@ -70,24 +70,19 @@ function displaySynonyms(arrayOfObjects) {
         headword.className = "hwi";
         headword.textContent = object.hwi.hw;
         console.log(headword);
-        //console.log(object.def);
+        synDiv.append(functionalLabel, headword);
         (object.def).forEach(defObject => {
             (defObject.sseq).forEach(sense => {
-                //console.log(sense);
                 sense.forEach(defvis => {
-                    //console.log(defvis);
                     defvis.forEach(dtsyn => {
-                        //console.log(dtsyn);
                         if(typeof(dtsyn) === typeof({})) {
-                            //console.log(dtsyn.dt);
                             (dtsyn.dt).forEach(dtValue => {
-                                //console.log(dtValue);
                                 if(typeof(dtValue[1]) === typeof("")) {
                                     console.log("definition: " + dtValue[1]);
                                     const definition = document.createElement("p");
                                     definition.className = "def-syn-group";
                                     definition.innerHTML = `<span class="def-syn-group">definition: </span>${dtValue[1]}`;
-                                    synDiv.append(functionalLabel, headword, definition);
+                                    synDiv.append(definition);
                                     resultPanel.appendChild(synDiv);
                                 }
                                 if(typeof(dtValue[1]) === typeof([])) {
@@ -104,10 +99,9 @@ function displaySynonyms(arrayOfObjects) {
                             console.log(dtsyn.syn_list);
                             if(typeof(dtsyn.syn_list) === typeof([])) {
                                 (dtsyn.syn_list).forEach(synValue => {
-                                    //console.log(synValue);
                                     const synonymListIntro = document.createElement("ul");
                                     synonymListIntro.className = "syn-list-ul";
-                                    synonymListIntro.innerHTML = `<span class="syn-intro">synonyms: </span>`;
+                                    synonymListIntro.innerHTML = `<span class="syn-intro">a list of synonyms: </span>`;
                                     synValue.forEach(synObj => {
                                         console.log("synonym: " + synObj.wd);
                                         const synWd = document.createElement("li");
