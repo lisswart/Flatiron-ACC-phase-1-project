@@ -87,8 +87,8 @@ h1 {
 }
 
 div.short-definition-div {
-    border-left: 1pc solid rgba(28, 170, 206, 0.87);
-    border-bottom: 1pc solid tomato;
+    /* border-left: 1pc solid rgba(28, 170, 206, 0.87); */
+    border: 3px solid tomato;
     margin-bottom: 1pc;
     margin-left: 5em;
     margin-right: 5em;
@@ -144,8 +144,8 @@ footer {
 }
 
 div.drp-div {
-    border-left: 1pc solid rgba(12, 99, 121, 0.87);
-    border-bottom: 1pc solid chocolate;
+    /* border-left: 1pc solid rgba(12, 99, 121, 0.87); */
+    border: 3px solid chocolate;
     margin-top: 2em;
     margin-bottom: 2em;
     margin-left: 5em;
@@ -164,6 +164,8 @@ div.drp-div:last-of-type {
 li.short-def, li.synonyms {
     color:rgb(4, 57, 70);
     margin-left: 1.75em;
+    font-size: 16px;
+    font-family: monospace;
 }
 
 li.short-def::marker {
@@ -205,10 +207,6 @@ li.vis {
     font-size: 16px;
     font-family: monospace;
 }
-
-/* li.vis:last-of-type {
-    padding-bottom: 2em;
-} */
 
 li.vis::marker {
     color: olivedrab;
@@ -290,7 +288,6 @@ ul.syn-list-ul {
     margin-left: 1em;
     padding-right: 0;
     list-style: none;
-    /* list-style-position: inside; */
 }
 
 span.syn-intro, span.def-syn-group, span.syn-vis, span.near-ant-intro {
@@ -328,5 +325,4 @@ ul.near-ant-ul {
     margin-left: 1em;
     padding-right: 0;
     list-style: none;
-    /* list-style-position: inside; */
 }
