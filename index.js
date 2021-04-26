@@ -10,13 +10,14 @@ const lookUpWord = document.querySelector("#search-box");
 const searchButton = document.querySelector("#search-button");
         
 searchButton.addEventListener("click", event => {
-    event.preventDefault();    
+    event.preventDefault();
+    event.stopPropagation();    
     if(searchType.value === "short-def") {
         const arrOfRespObjects = getDictionary(lookUpWord.value);
         arrOfRespObjects.then( arr => {
             displayShortDef(arr);
             console.log(arr);
-            });
+        });
     }    
     else if(searchType.value === "dros") {
         const arrOfRespObjects = getDictionary(lookUpWord.value);
@@ -78,7 +79,10 @@ function displaySynonyms(arrayOfObjects) {
                         synOL.className = "syn-ol";   
                         if(typeof(dtsyn) === typeof({})) {                                                      
                             (dtsyn.dt).forEach(dtValue => {                                                              
-                                if(typeof(dtValue[1]) === typeof("")) {                                    
+                                if(typeof(dtValue[1]) === typeof("")) {
+                                    if(searchType.value !== object.hwi.hw) {
+                                        alert("there is no synonym list associated with the word you just entered, below is a list of related words and their synonyms")
+                                    }                                    
                                     const definition = document.createElement("li");
                                     definition.className = "def-syn-group";
                                     definition.innerHTML = `<span class="def-syn-group">definition: </span>${dtValue[1]}`;
@@ -95,9 +99,6 @@ function displaySynonyms(arrayOfObjects) {
                             });                            
                             if(typeof(dtsyn.syn_list) === typeof([])) {
                                 (dtsyn.syn_list).forEach(synValue => {
-                                    if(searchType.value !== object.hwi.hw) {
-                                        alert("there is no synonym list associated with the word you just entered, below is a of related words and their synonyms")
-                                    }
                                     const synonymListIntro = document.createElement("ul");
                                     synonymListIntro.className = "syn-list-ul";
                                     synonymListIntro.innerHTML = `<span class="syn-intro">a list of synonyms: </span>`;
