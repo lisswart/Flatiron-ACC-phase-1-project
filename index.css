@@ -248,12 +248,22 @@ div.syn-div {
     padding-left: 5em;
 }
 
-p {
+li.def-syn-group {
     font-size: 16px;
 }
 
+p.fl {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: brown;
+    margin-top: 1em;
+}
+
 p.syn-vis {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
+    font-size: 16px;
 }
 
 li.syn-word {
