@@ -1,51 +1,37 @@
-console.log("Hi");
-
 const learnerDictionApiKey = "3248df3e-261a-4346-bf3d-e4d8e4480e1e";
 const learnerDictionarybaseURL = "https://www.dictionaryapi.com/api/v3/references/learners/json/";
 const thesaurusAPIkey = "969242a7-379c-400e-8c2b-e07bdc47843c";
 const thesaurusBaseURL = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/";
-const resultPanel = document.querySelector("#result-panel");
-const searchType = document.querySelector("#search-type");
-const lookUpWord = document.querySelector("#search-box");
-const searchButton = document.querySelector("#search-button");
+const resultPanel = document.getElementById("result-panel");
+const searchType = document.getElementById("search-type");
+const lookUpWord = document.getElementById("search-box");
+const searchButton = document.getElementById("search-button");
         
 searchButton.addEventListener("click", event => {
-    event.preventDefault();
-    event.stopPropagation();    
+    event.preventDefault();      
     if(searchType.value === "short-def") {
         const arrOfRespObjects = getDictionary(lookUpWord.value);
         arrOfRespObjects.then( arr => {
             displayShortDef(arr);
-            console.log(arr);
         });
     }    
     else if(searchType.value === "dros") {
         const arrOfRespObjects = getDictionary(lookUpWord.value);
         arrOfRespObjects.then(arr => {
             displayDRP(arr);
-            console.log(arr);            
         });
     }
     else if(searchType.value === "def") {
         const arrOfRespObjects = getDictionary(lookUpWord.value);
         arrOfRespObjects.then(arr => {
             displayDef(arr);
-            console.log(arr);
         });
     }
     else if(searchType.value === "syn") {
         const arrOfRespObjects = getThesaurus(lookUpWord.value);
         arrOfRespObjects.then(arr => {
             displaySynonyms(arr);
-            console.log(arr);
         });
-    }
-    else if(searchType.value === "ant") {
-        const arrOfRespObjects = getThesaurus(lookUpWord.value);
-        arrOfRespObjects.then(arr => {
-            displayAntonyms(arr);
-            console.log(arr);
-        });        
     }
 });
 
@@ -77,9 +63,9 @@ function displaySynonyms(arrayOfObjects) {
                     defvis.forEach(dtsyn => {
                         const synOL = document.createElement("ol");
                         synOL.className = "syn-ol";   
-                        if(typeof(dtsyn) === typeof({})) {                                                      
+                        if(typeof(dtsyn) === "object") {                                                      
                             (dtsyn.dt).forEach(dtValue => {                                                              
-                                if(typeof(dtValue[1]) === typeof("")) {
+                                if(typeof(dtValue[1]) === "string") {
                                     // if(searchType.value !== object.hwi.hw) {
                                     //     alert("there is no synonym list associated with the word you just entered, below is a list of related words and their synonyms")
                                     // }                                    
@@ -88,7 +74,7 @@ function displaySynonyms(arrayOfObjects) {
                                     definition.innerHTML = `<span class="def-syn-group">definition: </span>${dtValue[1]}`;
                                     synDiv_0.appendChild(definition);
                                 }
-                                if(typeof(dtValue[1]) === typeof([])) {
+                                if(Array.isArray(dtValue[1])) {
                                     dtValue[1].forEach(t => {
                                         const vis = document.createElement("p");
                                         vis.className = "syn-vis";
@@ -101,7 +87,7 @@ function displaySynonyms(arrayOfObjects) {
                             });
                             const synDiv_1 = document.createElement("div");
                             synDiv_1.className = "syn-div-1";
-                            if(typeof(dtsyn.syn_list) === typeof([])) {
+                            if(Array.isArray(dtsyn.syn_list)) {
                                 (dtsyn.syn_list).forEach(synValue => {
                                     const synonymListIntro = document.createElement("ul");
                                     synonymListIntro.className = "syn-list-ul";
@@ -118,7 +104,7 @@ function displaySynonyms(arrayOfObjects) {
                                     resultPanel.appendChild(synOL);
                                 });
                             }
-                            if(typeof(dtsyn.near_list) === typeof([])) {
+                            if(Array.isArray(dtsyn.near_list)) {
                                 (dtsyn.near_list).forEach(nearAnt => {
                                     const nearAntListIntro = document.createElement("ul");
                                     nearAntListIntro.className = "near-ant-ul";
@@ -134,9 +120,6 @@ function displaySynonyms(arrayOfObjects) {
                                     synOL.appendChild(synDiv_0);
                                     resultPanel.appendChild(synOL);
                                 });
-                            }
-                            if(typeof(dtsyn.ant_list) === typeof([])) {
-
                             }
                         }
                     });                    
@@ -189,17 +172,17 @@ function displayDef(arrayOfObjects) {
         defDiv.appendChild(headword);
                 
         const objDef = resp.def;
-        if(typeof(objDef) === typeof([])) {
+        if(Array.isArray(objDef)) {
             objDef.forEach(defArray => {
                 const sseq = defArray.sseq;
                 sseq.forEach(sense => {
                     sense.forEach(senseLayer => {
                         senseLayer.forEach(dt => {
                             const t = dt.dt;
-                            if(typeof(t) === typeof([])) {
+                            if(Array.isArray(t)) {
                                 t.forEach(t_0 => {
                                     t_0.forEach(textvis => {
-                                        if(typeof(textvis) === typeof("") && textvis.length > 10) {                                            
+                                        if(typeof(textvis) === "string" && textvis.length > 10) {                                            
                                             const defText = document.createElement("li");
                                             defText.className = "def-text";
                                             defText.textContent = textvis;
@@ -209,7 +192,7 @@ function displayDef(arrayOfObjects) {
                                         }
                                         const visUL = document.createElement("ul");
                                         Array.from(textvis).forEach(vis => {
-                                            if(typeof(vis) != typeof("")) {                                                
+                                            if(typeof(vis) !== "string") {                                                
                                                 const vis_t = document.createElement("li");
                                                 vis_t.className = "vis";
                                                 vis_t.textContent = vis.t;
@@ -274,6 +257,13 @@ function getDrpDef(drpdef, drpDiv, phraseOL) {
     drpdef.forEach(sseq => {
         (sseq.sseq).forEach(array1 => {                                          
             array1.forEach(sense => {
+                //using Array.isArray(sense) to express 
+                //the condition inside the if statement below didn't yield the same result
+                //specifically, the condition inside the following if statement ended up
+                //as always being evaluated to false, when using Array.isArray(sense),
+                //which cause the search for run-on phrases to never yield any 
+                //definition/verbal illustration because the callback
+                //functions were never reached
                 if(typeof(sense) === typeof([])) {                                
                     sense.forEach(a => {                  
                         if(typeof(a) === typeof([])) {
@@ -310,19 +300,19 @@ function dtTrooper(drpDiv, phraseOL, a) {
         const visUL = document. createElement("ul");
         visUL.className = "vis-ul";                                             
         (a.dt).forEach(b => {
-            if(typeof(b[1]) == typeof("")) {
+            if(typeof(b[1]) === typeof("")) {
                 displayPhraseDefinition(b[1], visUL);
             }
             b.forEach(c => {
-                if(typeof(c[1]) == typeof("") && c[1].length > 3) {
+                if(typeof(c[1]) === typeof("") && c[1].length > 3) {
                     displayPhraseDefinition(c[1], visUL);
                 }                                                                                                        
                 if(typeof(c) === typeof([])) {
                     c.forEach(d => {
-                        if(typeof(d[1]) == typeof("") && d[1].length > 5) {
+                        if(typeof(d[1]) === typeof("") && d[1].length > 5) {
                             displayPhraseDefinition(d[1], visUL);
                         }                                                                                                                            
-                        if(typeof(d.t) == typeof("")) {
+                        if(typeof(d.t) === typeof("")) {
                             const dt = d.t;
                             displayVerbalIllustrations(dt, visUL, phraseOL, drpDiv);                            
                         }
@@ -330,12 +320,12 @@ function dtTrooper(drpDiv, phraseOL, a) {
                         //reason: d is an array-like iterable object but not an array per se
                         //fix: utilize Array.from(arraylike) to convert an array-like object to an array                                                                
                         Array.from(d).forEach(e => {
-                            if(typeof(e[1]) == typeof("") && e[1].length > 3) {
+                            if(typeof(e[1]) === typeof("") && e[1].length > 3) {
                                 displayPhraseDefinition(e[1], visUL);
                             }                                                                        
                             if(typeof(e) === typeof([])) {
                                 e.forEach(f => {                                                                                
-                                    if(typeof(f.t) == typeof("")) {
+                                    if(typeof(f.t) === typeof("")) {
                                         const ft = f.t;
                                         displayVerbalIllustrations(ft, visUL, phraseOL, drpDiv);                                                                                                                                   
                                     }                                                                                
@@ -344,7 +334,7 @@ function dtTrooper(drpDiv, phraseOL, a) {
                                         //reason: f is an array-like iterable object but not an array per se
                                         //fix: utilize Array.from(arraylike) to convert an array-like object to an array 
                                         Array.from(f).forEach(g => {                                                                          
-                                            if(typeof(g.t) == typeof("")) {
+                                            if(typeof(g.t) === typeof("")) {
                                                 const gt = g.t;
                                                 displayVerbalIllustrations(gt, visUL, phraseOL, drpDiv);
                                             }                                                                                  
