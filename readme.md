@@ -12,7 +12,7 @@ STRETCH :
 
 4. [x] users should be able to type in a word and have the option to search for short definition, or full definition, or defined run-on phrases, or 
 
-5. [ ] to look in thesaurus and retrieve a list of synonyms and antonyms
+5. [x] to look in thesaurus and retrieve a list of synonyms and antonyms
 
 
 API used:
@@ -29,5 +29,8 @@ project is evaluated on the following six criteria:
 4. [x] user can interact with DOM using JavaScript
 5. [x] user interaction changes the DOM without reloading the page
 6. [x] presence of some CSS
+
+
+
 
 

@@ -6,31 +6,36 @@ const resultPanel = document.getElementById("result-panel");
 const searchType = document.getElementById("search-type");
 const lookUpWord = document.getElementById("search-box");
 const searchButton = document.getElementById("search-button");
+const audioBase = "https://media.merriam-webster.com/audio/prons/en/us/mp3/";
         
 searchButton.addEventListener("click", event => {
-    event.preventDefault();      
+    event.preventDefault();
     if(searchType.value === "short-def") {
-        const arrOfRespObjects = getDictionary(lookUpWord.value);
-        arrOfRespObjects.then( arr => {
+        const arrOfRespObjs = getDictionary(lookUpWord.value);
+        arrOfRespObjs.then(arr => {
             displayShortDef(arr);
+            console.log(arr);
         });
     }    
     else if(searchType.value === "dros") {
-        const arrOfRespObjects = getDictionary(lookUpWord.value);
-        arrOfRespObjects.then(arr => {
+        const arrOfRespObjs = getDictionary(lookUpWord.value);
+        arrOfRespObjs.then(arr => {
             displayDRP(arr);
+            console.log(arr);
         });
     }
     else if(searchType.value === "def") {
-        const arrOfRespObjects = getDictionary(lookUpWord.value);
-        arrOfRespObjects.then(arr => {
+        const arrOfRespObjs = getDictionary(lookUpWord.value);
+        arrOfRespObjs.then(arr => {
             displayDef(arr);
+            console.log(arr);
         });
     }
     else if(searchType.value === "syn") {
-        const arrOfRespObjects = getThesaurus(lookUpWord.value);
-        arrOfRespObjects.then(arr => {
+        const arrOfRespObjs = getThesaurus(lookUpWord.value);
+        arrOfRespObjs.then(arr => {
             displaySynonyms(arr);
+            console.log(arr);
         });
     }
 });
@@ -73,7 +78,7 @@ function displaySynonyms(arrayOfObjects) {
                                     definition.className = "def-syn-group";
                                     definition.innerHTML = `<span class="def-syn-group">definition: </span>${dtValue[1]}`;
                                     synDiv_0.appendChild(definition);
-                                }
+                                }//TypeError:  Cannot read property 'forEach' of undefined
                                 if(Array.isArray(dtValue[1])) {
                                     dtValue[1].forEach(t => {
                                         const vis = document.createElement("p");
@@ -137,18 +142,37 @@ function displayShortDef(arrayOfObjects) {
         const functionalLabel = document.createElement("li");
         functionalLabel.className = "fl";
         functionalLabel.textContent = object.fl;
+        const unorderedList = document.createElement("ul");
         const headword = document.createElement("h3");
         headword.className = "hwi";
         headword.textContent = object.hwi.hw;
-        const unorderedList = document.createElement("ul");
-        unorderedList.appendChild(headword);
+        if(object.hwi.prs) {
+            (object.hwi.prs).forEach(element => {
+                const baseFileName = element.sound.audio;
+                console.log(baseFileName);
+                const subDirectory = baseFileName.slice(0, 1);
+                console.log(subDirectory);
+                const audio = document.createElement("audio");
+                audio.className = "audio";
+                audio.controls = "controls";
+                const source = document.createElement("source");
+                source.className = "source";
+                source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                audio.appendChild(source);
+                unorderedList.appendChild(headword);
+                unorderedList.appendChild(audio)
+            })
+        }
+        else {
+            unorderedList.appendChild(headword);
+        }
         const arrOfShortDef = object.shortdef;
         arrOfShortDef.forEach( strings => {
             const para = document.createElement("li");
             para.className = "short-def";
             para.textContent = strings;
             unorderedList.appendChild(para);
-        });       
+        });
         shortDefDiv.appendChild(functionalLabel);
         shortDefDiv.appendChild(unorderedList);
         resultPanel.appendChild(shortDefDiv);
@@ -256,14 +280,7 @@ function displayDRP(arrOfRespObjs) {
 function getDrpDef(drpdef, drpDiv, phraseOL) {               
     drpdef.forEach(sseq => {
         (sseq.sseq).forEach(array1 => {                                          
-            array1.forEach(sense => {
-                //using Array.isArray(sense) to express 
-                //the condition inside the if statement below didn't yield the same result
-                //specifically, the condition inside the following if statement ended up
-                //as always being evaluated to false, when using Array.isArray(sense),
-                //which cause the search for run-on phrases to never yield any 
-                //definition/verbal illustration because the callback
-                //functions were never reached
+            array1.forEach(sense => {               
                 if(typeof(sense) === typeof([])) {                                
                     sense.forEach(a => {                  
                         if(typeof(a) === typeof([])) {
