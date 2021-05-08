@@ -271,20 +271,22 @@ function displayDRP(arrOfRespObjs) {
         
         if(respObj.hwi.prs) {
             (respObj.hwi.prs).forEach(element => {
-                const baseFileName = element.sound.audio;
-                console.log(baseFileName);
-                const subDirectory = baseFileName.slice(0, 1);
-                console.log(subDirectory);
-                const audio = document.createElement("audio");
-                audio.className = "audio";
-                audio.controls = "controls";
-                const source = document.createElement("source");
-                source.className = "source";
-                source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
-                audio.appendChild(source);
-                unorderedList.appendChild(headword);
-                drpDiv.appendChild(unorderedList);
-                drpDiv.appendChild(audio);
+                if(element.sound) {
+                    const baseFileName = element.sound.audio;
+                    console.log(baseFileName);
+                    const subDirectory = baseFileName.slice(0, 1);
+                    console.log(subDirectory);
+                    const audio = document.createElement("audio");
+                    audio.className = "audio";
+                    audio.controls = "controls";
+                    const source = document.createElement("source");
+                    source.className = "source";
+                    source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                    audio.appendChild(source);
+                    unorderedList.appendChild(headword);
+                    drpDiv.appendChild(unorderedList);
+                    drpDiv.appendChild(audio);
+                }
             })
         }
         else {
