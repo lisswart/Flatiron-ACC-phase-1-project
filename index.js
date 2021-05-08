@@ -273,9 +273,7 @@ function displayDRP(arrOfRespObjs) {
             (respObj.hwi.prs).forEach(element => {
                 if(element.sound) {
                     const baseFileName = element.sound.audio;
-                    console.log(baseFileName);
                     const subDirectory = baseFileName.slice(0, 1);
-                    console.log(subDirectory);
                     const audio = document.createElement("audio");
                     audio.className = "audio";
                     audio.controls = "controls";
