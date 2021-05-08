@@ -149,9 +149,7 @@ function displayShortDef(arrayOfObjects) {
         if(object.hwi.prs) {
             (object.hwi.prs).forEach(element => {
                 const baseFileName = element.sound.audio;
-                console.log(baseFileName);
                 const subDirectory = baseFileName.slice(0, 1);
-                console.log(subDirectory);
                 const audio = document.createElement("audio");
                 audio.className = "audio";
                 audio.controls = "controls";
@@ -193,8 +191,26 @@ function displayDef(arrayOfObjects) {
         headword.className = "def-hw";
         headword.textContent = resp.hwi.hw;
         defDiv.appendChild(functionalLabel);
-        defDiv.appendChild(headword);
-                
+        if(resp.hwi.prs) {
+            (resp.hwi.prs).forEach(element => {
+                if(element.sound) {
+                    const baseFileName = element.sound.audio;
+                    const subDirectory = baseFileName.slice(0, 1);
+                    const audio = document.createElement("audio");
+                    audio.className = "audio";
+                    audio.controls = "controls";
+                    const source = document.createElement("source");
+                    source.className = "source";
+                    source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                    audio.appendChild(source);
+                    defDiv.appendChild(headword);
+                    defDiv.appendChild(audio);
+                }
+            })
+        }        
+        else {
+            defDiv.appendChild(headword);
+        }        
         const objDef = resp.def;
         if(Array.isArray(objDef)) {
             objDef.forEach(defArray => {
@@ -251,13 +267,32 @@ function displayDRP(arrOfRespObjs) {
         const headword = document.createElement("h3");
         headword.className = "hwi";
         headword.textContent = respObj.hwi.hw;
-        drpDiv.appendChild(functionalLabel);                
-                
-        if(respObj.dros) {
+        drpDiv.appendChild(functionalLabel);
+        
+        if(respObj.hwi.prs) {
+            (respObj.hwi.prs).forEach(element => {
+                const baseFileName = element.sound.audio;
+                console.log(baseFileName);
+                const subDirectory = baseFileName.slice(0, 1);
+                console.log(subDirectory);
+                const audio = document.createElement("audio");
+                audio.className = "audio";
+                audio.controls = "controls";
+                const source = document.createElement("source");
+                source.className = "source";
+                source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                audio.appendChild(source);
+                unorderedList.appendChild(headword);
+                drpDiv.appendChild(unorderedList);
+                drpDiv.appendChild(audio);
+            })
+        }
+        else {
             unorderedList.appendChild(headword);
-            drpDiv.appendChild(unorderedList);                       
-            resultPanel.appendChild(drpDiv);
-                    
+            drpDiv.appendChild(unorderedList);
+        }
+        resultPanel.appendChild(drpDiv);
+        if(respObj.dros) {
             const phraseOL = document.createElement("ol");
             phraseOL.className = "ordered-list";
             phraseOL.classList.add = "phrases";
