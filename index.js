@@ -147,25 +147,27 @@ function displayShortDef(arrayOfObjects) {
         headword.className = "hwi";
         headword.textContent = object.hwi.hw;
         if(object.hwi.prs) {
-            (object.hwi.prs).forEach(element => {
-                if(element.sound) {
-                    const baseFileName = element.sound.audio;
-                    const subDirectory = baseFileName.slice(0, 1);
+            const element = object.hwi.prs;
+                if(element[0].sound) {
+                    const baseFileName = element[0].sound.audio;
                     const audio = document.createElement("audio");
                     audio.className = "audio";
                     audio.controls = "controls";
                     const source = document.createElement("source");
                     source.className = "source";
+                    let subDirectory = baseFileName.slice(0, 1);
+                    console.log(subDirectory);
+                    if(Number.isInteger(parseInt(subDirectory))) {
+                        subDirectory = "number";
+                        source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                    }
                     source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
                     audio.appendChild(source);
                     unorderedList.appendChild(headword);
                     unorderedList.appendChild(audio);
                 }
-            })
         }
-        else {
-            unorderedList.appendChild(headword);
-        }
+        unorderedList.appendChild(headword);
         const arrOfShortDef = object.shortdef;
         arrOfShortDef.forEach( strings => {
             const para = document.createElement("li");
