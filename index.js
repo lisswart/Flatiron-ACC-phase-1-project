@@ -252,18 +252,16 @@ function displayDef(arrayOfObjects) {
                                                 for(const match of matches) {
                                                     if(match[0].length > 2) {
                                                         const stem = match[0].substring(4, match[0].length - 2);
-                                                        console.log(stem);
                                                         const defText = document.createElement("li");
-                                                        defText.className = "def-text";
-                                                        orderedList.appendChild(defText);
-                                                        defDiv.appendChild(orderedList);
-                                                        resultPanel.appendChild(defDiv);
+                                                        defText.className = "def-text";                                                        
                                                         getDictionary(stem).then(arr => {
-                                                            console.log(arr);
                                                             arr.forEach(obj => {
                                                                 defText.innerHTML = `<span class="see-also">see also:</span> ${stem}: ${obj.shortdef}`;
                                                             })
                                                         });
+                                                        orderedList.appendChild(defText);
+                                                        defDiv.appendChild(orderedList);
+                                                        resultPanel.appendChild(defDiv);
                                                     }
                                                 }
                                             }
@@ -310,43 +308,40 @@ function displayDRP(arrOfRespObjs) {
         drpDiv.className = "drp-div";
         const unorderedList = document.createElement("ul");
         unorderedList.className = "ul";
-        
-        const functionalLabel = document.createElement("li");
-        functionalLabel.className = "fl";
-        functionalLabel.textContent = respObj.fl;        
-        const headword = document.createElement("h3");
-        headword.className = "hwi";
-        headword.textContent = respObj.hwi.hw;
-        drpDiv.appendChild(functionalLabel);
-        
-        if(respObj.hwi.prs) {
-            (respObj.hwi.prs).forEach(element => {
-                if(element.sound) {
-                    const baseFileName = element.sound.audio;
-                    const subDirectory = baseFileName.slice(0, 1);
-                    const audio = document.createElement("audio");
-                    audio.className = "audio";
-                    audio.controls = "controls";
-                    const source = document.createElement("source");
-                    source.className = "source";
-                    source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
-                    audio.appendChild(source);
-                    unorderedList.appendChild(headword);
-                    drpDiv.appendChild(unorderedList);
-                    drpDiv.appendChild(audio);
-                }
-            })
-        }
-        else {
-            unorderedList.appendChild(headword);
-            drpDiv.appendChild(unorderedList);
-        }
-        resultPanel.appendChild(drpDiv);
+        //resultPanel.appendChild(drpDiv);
         if(respObj.dros) {
+            const functionalLabel = document.createElement("li");
+            functionalLabel.className = "fl";
+            functionalLabel.textContent = respObj.fl;        
+            const headword = document.createElement("h3");
+            headword.className = "hwi";
+            headword.textContent = respObj.hwi.hw;
+            drpDiv.appendChild(functionalLabel);
             const phraseOL = document.createElement("ol");
             phraseOL.className = "ordered-list";
             phraseOL.classList.add = "phrases";
-        
+            if(respObj.hwi.prs) {
+                (respObj.hwi.prs).forEach(element => {
+                    if(element.sound) {
+                        const baseFileName = element.sound.audio;
+                        const subDirectory = baseFileName.slice(0, 1);
+                        const audio = document.createElement("audio");
+                        audio.className = "audio";
+                        audio.controls = "controls";
+                        const source = document.createElement("source");
+                        source.className = "source";
+                        source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                        audio.appendChild(source);
+                        unorderedList.appendChild(headword);
+                        drpDiv.appendChild(unorderedList);
+                        drpDiv.appendChild(audio);
+                    }
+                })
+            }
+            else {
+                unorderedList.appendChild(headword);
+                drpDiv.appendChild(unorderedList);
+            }
             const dros = respObj.dros;
             dros.forEach(drp => {
                 const drPhrase = document.createElement("li");
@@ -354,10 +349,11 @@ function displayDRP(arrOfRespObjs) {
                 drPhrase.innerHTML = `<span class="phrase">phrase: </span>${drp.drp}`;
                 phraseOL.appendChild(drPhrase);
                 drpDiv.appendChild(phraseOL);
-                resultPanel.appendChild(drpDiv);
+                // resultPanel.appendChild(drpDiv);
                 const drpdef = drp.def;
                 getDrpDef(drpdef, drpDiv, phraseOL);
-            });   
+            });
+            resultPanel.appendChild(drpDiv);   
         }
     });    
 }
@@ -401,14 +397,14 @@ function dtTrooper(drpDiv, phraseOL, a) {
     if(typeof(a.dt) === typeof([])) {
         const visUL = document. createElement("ul");
         visUL.className = "vis-ul";                                             
-        (a.dt).forEach(b => {
-            if(typeof(b[1]) === typeof("")) {
+        (a.dt).forEach(b => {console.log(b[1]);
+            if(typeof(b[1]) === "string") {
                 displayPhraseDefinition(b[1], visUL);
             }
             b.forEach(c => {
-                if(typeof(c[1]) === typeof("") && c[1].length > 3) {
+                if(typeof(c[1]) === "string" && c[1].length > 3) {
                     displayPhraseDefinition(c[1], visUL);
-                }                                                                                                        
+                }                                                                                                   
                 if(typeof(c) === typeof([])) {
                     c.forEach(d => {
                         if(typeof(d[1]) === typeof("") && d[1].length > 5) {
