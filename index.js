@@ -53,131 +53,148 @@ function getThesaurus(word) {
 function displaySynonyms(arrayOfObjects) {
     resultPanel.innerHTML = "";
     arrayOfObjects.forEach(object => {
-        const synDiv_0 = document.createElement("div");
-        synDiv_0.className = "syn-div-0";
-        const functionalLabel = document.createElement("p");
-        functionalLabel.className = "fl";
-        functionalLabel.textContent = object.fl;
-        const headword = document.createElement("h3");
-        headword.className = "hwi";
-        headword.textContent = object.hwi.hw;
-        synDiv_0.append(functionalLabel, headword);
-        (object.def).forEach(defObject => {
-            (defObject.sseq).forEach(sense => {
-                sense.forEach(defvis => {
-                    defvis.forEach(dtsyn => {
-                        const synOL = document.createElement("ol");
-                        synOL.className = "syn-ol";   
-                        if(typeof(dtsyn) === "object") {                                                      
-                            (dtsyn.dt).forEach(dtValue => {                                                              
-                                if(typeof(dtValue[1]) === "string") {
-                                    // if(searchType.value !== object.hwi.hw) {
-                                    //     alert("there is no synonym list associated with the word you just entered, below is a list of related words and their synonyms")
-                                    // }                                    
-                                    const definition = document.createElement("li");
-                                    definition.className = "def-syn-group";
-                                    definition.innerHTML = `<span class="def-syn-group">definition: </span>${dtValue[1]}`;
-                                    synDiv_0.appendChild(definition);
-                                }//TypeError:  Cannot read property 'forEach' of undefined
-                                if(Array.isArray(dtValue[1])) {
-                                    dtValue[1].forEach(t => {
-                                        const vis = document.createElement("p");
-                                        vis.className = "syn-vis";
-                                        vis.innerHTML= `<span class="syn-vis">verbal illustration: </span>${t.t}`;
-                                        synDiv_0.appendChild(vis);
+        if(typeof object !== "string") {
+            const synDiv_0 = document.createElement("div");
+            synDiv_0.className = "syn-div-0";
+            const functionalLabel = document.createElement("p");
+            functionalLabel.className = "fl";
+            functionalLabel.textContent = object.fl;
+            const headword = document.createElement("h3");
+            headword.className = "hwi";
+            headword.textContent = object.hwi;
+            headword.textContent = object.hwi.hw;
+            synDiv_0.append(functionalLabel, headword);
+            (object.def).forEach(defObject => {
+                (defObject.sseq).forEach(sense => {
+                    sense.forEach(defvis => {
+                        defvis.forEach(dtsyn => {
+                            const synOL = document.createElement("ol");
+                            synOL.className = "syn-ol";   
+                            if(typeof(dtsyn) === "object") {                                                      
+                                (dtsyn.dt).forEach(dtValue => {                                                              
+                                    if(typeof(dtValue[1]) === "string") {
+                                        // if(searchType.value !== object.hwi.hw) {
+                                        //     alert("there is no synonym list associated with the word you just entered, below is a list of related words and their synonyms")
+                                        // }                                    
+                                        const definition = document.createElement("li");
+                                        definition.className = "def-syn-group";
+                                        definition.innerHTML = `<span class="def-syn-group">definition: </span>${dtValue[1]}`;
+                                        synDiv_0.appendChild(definition);
+                                    }//TypeError:  Cannot read property 'forEach' of undefined
+                                    if(Array.isArray(dtValue[1])) {
+                                        dtValue[1].forEach(t => {
+                                            const vis = document.createElement("p");
+                                            vis.className = "syn-vis";
+                                            vis.innerHTML= `<span class="syn-vis">verbal illustration: </span>${t.t}`;
+                                            synDiv_0.appendChild(vis);
+                                        });
+                                    }
+                                    synOL.appendChild(synDiv_0);
+                                    resultPanel.appendChild(synOL);
+                                });
+                                const synDiv_1 = document.createElement("div");
+                                synDiv_1.className = "syn-div-1";
+                                if(Array.isArray(dtsyn.syn_list)) {
+                                    (dtsyn.syn_list).forEach(synValue => {
+                                        const synonymListIntro = document.createElement("ul");
+                                        synonymListIntro.className = "syn-list-ul";
+                                        synonymListIntro.innerHTML = `<span class="syn-intro">a list of synonyms: </span>`;
+                                        synValue.forEach(synObj => {
+                                            const synWd = document.createElement("li");
+                                            synWd.className = "syn-word";
+                                            synWd.textContent = synObj.wd;
+                                            synonymListIntro.appendChild(synWd);
+                                        });
+                                        synDiv_1.appendChild(synonymListIntro);
+                                        synDiv_0.appendChild(synDiv_1);
+                                        synOL.appendChild(synDiv_0);
+                                        resultPanel.appendChild(synOL);
                                     });
                                 }
-                                synOL.appendChild(synDiv_0);
-                                resultPanel.appendChild(synOL);
-                            });
-                            const synDiv_1 = document.createElement("div");
-                            synDiv_1.className = "syn-div-1";
-                            if(Array.isArray(dtsyn.syn_list)) {
-                                (dtsyn.syn_list).forEach(synValue => {
-                                    const synonymListIntro = document.createElement("ul");
-                                    synonymListIntro.className = "syn-list-ul";
-                                    synonymListIntro.innerHTML = `<span class="syn-intro">a list of synonyms: </span>`;
-                                    synValue.forEach(synObj => {
-                                        const synWd = document.createElement("li");
-                                        synWd.className = "syn-word";
-                                        synWd.textContent = synObj.wd;
-                                        synonymListIntro.appendChild(synWd);
+                                if(Array.isArray(dtsyn.near_list)) {
+                                    (dtsyn.near_list).forEach(nearAnt => {
+                                        const nearAntListIntro = document.createElement("ul");
+                                        nearAntListIntro.className = "near-ant-ul";
+                                        nearAntListIntro.innerHTML = `<span class="near-ant-intro">a list of near antonyms: </span>`;
+                                        nearAnt.forEach(nearAntObj => {
+                                            const nearAntWd = document.createElement("li");
+                                            nearAntWd.className = "near-ant-word";
+                                            nearAntWd.textContent = nearAntObj.wd;
+                                            nearAntListIntro.appendChild(nearAntWd);
+                                        });
+                                        synDiv_1.appendChild(nearAntListIntro);
+                                        synDiv_0.appendChild(synDiv_1);
+                                        synOL.appendChild(synDiv_0);
+                                        resultPanel.appendChild(synOL);
                                     });
-                                    synDiv_1.appendChild(synonymListIntro);
-                                    synDiv_0.appendChild(synDiv_1);
-                                    synOL.appendChild(synDiv_0);
-                                    resultPanel.appendChild(synOL);
-                                });
+                                }
                             }
-                            if(Array.isArray(dtsyn.near_list)) {
-                                (dtsyn.near_list).forEach(nearAnt => {
-                                    const nearAntListIntro = document.createElement("ul");
-                                    nearAntListIntro.className = "near-ant-ul";
-                                    nearAntListIntro.innerHTML = `<span class="near-ant-intro">a list of near antonyms: </span>`;
-                                    nearAnt.forEach(nearAntObj => {
-                                        const nearAntWd = document.createElement("li");
-                                        nearAntWd.className = "near-ant-word";
-                                        nearAntWd.textContent = nearAntObj.wd;
-                                        nearAntListIntro.appendChild(nearAntWd);
-                                    });
-                                    synDiv_1.appendChild(nearAntListIntro);
-                                    synDiv_0.appendChild(synDiv_1);
-                                    synOL.appendChild(synDiv_0);
-                                    resultPanel.appendChild(synOL);
-                                });
-                            }
-                        }
-                    });                    
-                });                
+                        });                    
+                    });                
+                });
             });
-        });        
+        }
+        else {
+            const stems = document.createElement("ul");
+            stems.className = " stems";
+            stems.textContent = object;
+            resultPanel.appendChild(stems);
+        }   
     });
 }
         
 function displayShortDef(arrayOfObjects) {
     resultPanel.innerHTML = "";
     arrayOfObjects.forEach(object => {
-        const shortDefDiv = document.createElement("div");
-        shortDefDiv.className = "short-definition-div";
-        const functionalLabel = document.createElement("li");
-        functionalLabel.className = "fl";
-        functionalLabel.textContent = object.fl;
-        const unorderedList = document.createElement("ul");
-        const headword = document.createElement("h3");
-        headword.className = "hwi";
-        headword.textContent = object.hwi.hw;
-        if(object.hwi.prs) {
-            const element = object.hwi.prs;
-                if(element[0].sound) {
-                    const baseFileName = element[0].sound.audio;
-                    const audio = document.createElement("audio");
-                    audio.className = "audio";
-                    audio.controls = "controls";
-                    const source = document.createElement("source");
-                    source.className = "source";
-                    let subDirectory = baseFileName.slice(0, 1);
-                    console.log(subDirectory);
-                    if(Number.isInteger(parseInt(subDirectory))) {
-                        subDirectory = "number";
+        if(typeof object !== "string") {
+            const shortDefDiv = document.createElement("div");
+            shortDefDiv.className = "short-definition-div";
+            const functionalLabel = document.createElement("li");
+            functionalLabel.className = "fl";
+            functionalLabel.textContent = object.fl;
+            const unorderedList = document.createElement("ul");
+            const headword = document.createElement("h3");
+            headword.className = "hwi";
+            headword.textContent = object.hwi.hw;
+            if(object.hwi.prs) {
+                const element = object.hwi.prs;
+                    if(element[0].sound) {
+                        const baseFileName = element[0].sound.audio;
+                        const audio = document.createElement("audio");
+                        audio.className = "audio";
+                        audio.controls = "controls";
+                        const source = document.createElement("source");
+                        source.className = "source";
+                        let subDirectory = baseFileName.slice(0, 1);
+                        console.log(subDirectory);
+                        if(Number.isInteger(parseInt(subDirectory))) {
+                            subDirectory = "number";
+                            source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                        }
                         source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                        audio.appendChild(source);
+                        unorderedList.appendChild(headword);
+                        unorderedList.appendChild(audio);
                     }
-                    source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
-                    audio.appendChild(source);
-                    unorderedList.appendChild(headword);
-                    unorderedList.appendChild(audio);
-                }
+            }
+            unorderedList.appendChild(headword);
+            const arrOfShortDef = object.shortdef;
+            arrOfShortDef.forEach( strings => {
+                const para = document.createElement("li");
+                para.className = "short-def";
+                para.textContent = strings;
+                unorderedList.appendChild(para);
+            });
+            shortDefDiv.appendChild(functionalLabel);
+            shortDefDiv.appendChild(unorderedList);
+            resultPanel.appendChild(shortDefDiv);
         }
-        unorderedList.appendChild(headword);
-        const arrOfShortDef = object.shortdef;
-        arrOfShortDef.forEach( strings => {
-            const para = document.createElement("li");
-            para.className = "short-def";
-            para.textContent = strings;
-            unorderedList.appendChild(para);
-        });
-        shortDefDiv.appendChild(functionalLabel);
-        shortDefDiv.appendChild(unorderedList);
-        resultPanel.appendChild(shortDefDiv);
+        else {
+            const stems = document.createElement("ul");
+            stems.className = "stems";
+            stems.textContent = object;
+            resultPanel.appendChild(stems);
+        }
     });
 }
         
