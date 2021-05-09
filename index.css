@@ -245,6 +245,10 @@ li.def-text {
     font-family: monospace;    
 }
 
+span.see-also {
+    color:rgb(250, 2, 155);
+}
+
 div.def-div {
     margin: 3em;
     border: 5px solid coral;

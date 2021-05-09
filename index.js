@@ -244,9 +244,30 @@ function displayDef(arrayOfObjects) {
                                 if(Array.isArray(t)) {
                                     t.forEach(t_0 => {
                                         t_0.forEach(textvis => {
-                                            if(typeof(textvis) === "string" && textvis.length > 10) {                                            
-                                                const defText = document.createElement("li");
-                                                defText.className = "def-text";
+                                            const defText = document.createElement("li");
+                                            defText.className = "def-text";
+                                            if(typeof textvis === "string") {  
+                                                let regex = /dx[|a-z" "-:0-9]*/g;
+                                                let matches = textvis.matchAll(regex);
+                                                for(const match of matches) {
+                                                    if(match[0].length > 2) {
+                                                        const stem = match[0].substring(4, match[0].length - 2);
+                                                        console.log(stem);
+                                                        const defText = document.createElement("li");
+                                                        defText.className = "def-text";
+                                                        orderedList.appendChild(defText);
+                                                        defDiv.appendChild(orderedList);
+                                                        resultPanel.appendChild(defDiv);
+                                                        getDictionary(stem).then(arr => {
+                                                            console.log(arr);
+                                                            arr.forEach(obj => {
+                                                                defText.innerHTML = `<span class="see-also">see also:</span> ${stem}: ${obj.shortdef}`;
+                                                            })
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                            if(typeof(textvis) === "string" && textvis.length > 10 && !(textvis.includes("dx"))) {
                                                 defText.textContent = textvis;
                                                 orderedList.appendChild(defText);
                                                 defDiv.appendChild(orderedList);
