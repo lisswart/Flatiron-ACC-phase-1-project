@@ -95,6 +95,10 @@ div.short-definition-div {
     padding-bottom: 1em;
 }
 
+div.short-definition-div > ul > audio {
+    margin-left: 0;
+}
+
 .short-definition-div:last-of-type {
     margin-bottom: 2.5rem;
 }

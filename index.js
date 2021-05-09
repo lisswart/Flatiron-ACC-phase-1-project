@@ -148,17 +148,19 @@ function displayShortDef(arrayOfObjects) {
         headword.textContent = object.hwi.hw;
         if(object.hwi.prs) {
             (object.hwi.prs).forEach(element => {
-                const baseFileName = element.sound.audio;
-                const subDirectory = baseFileName.slice(0, 1);
-                const audio = document.createElement("audio");
-                audio.className = "audio";
-                audio.controls = "controls";
-                const source = document.createElement("source");
-                source.className = "source";
-                source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
-                audio.appendChild(source);
-                unorderedList.appendChild(headword);
-                unorderedList.appendChild(audio)
+                if(element.sound) {
+                    const baseFileName = element.sound.audio;
+                    const subDirectory = baseFileName.slice(0, 1);
+                    const audio = document.createElement("audio");
+                    audio.className = "audio";
+                    audio.controls = "controls";
+                    const source = document.createElement("source");
+                    source.className = "source";
+                    source.src = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${subDirectory}/${baseFileName}.mp3`;
+                    audio.appendChild(source);
+                    unorderedList.appendChild(headword);
+                    unorderedList.appendChild(audio);
+                }
             })
         }
         else {
