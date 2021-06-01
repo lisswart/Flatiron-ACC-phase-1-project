@@ -247,9 +247,22 @@ function displayDef(arrayOfObjects) {
                                             const defText = document.createElement("li");
                                             defText.className = "def-text";
                                             if(typeof textvis === "string") {  
-                                                let regex = /dx[|a-z" "-:0-9]*/g;
+                                                const regex = /dx[|a-z" "-:0-9]*/g;
                                                 let matches = textvis.matchAll(regex);
                                                 for(const match of matches) {
+                                                    // const regexDRP = /it|\/it|[|a-z" "]*/g;
+                                                    // let matchesDRP = textvis.matchAll(regexDRP);
+                                                    // const newStr = [];
+                                                    // for(const match of matchesDRP) {   
+                                                    //     if(match[0].length > 3) {
+                                                    //         if(match[0].startsWith("dxt|")) {
+                                                    //             match[0] = match[0].substring(4, match[0].length - 2);
+                                                    //         } 
+                                                    //     newStr.push(match[0]);    
+                                                    //     }
+                                                    // }
+                                                    // console.log(newStr.join(""));
+                                                    // defText.textContent = newStr.join("");
                                                     if(match[0].length > 2) {
                                                         const stem = match[0].substring(4, match[0].length - 2);
                                                         const defText = document.createElement("li");
@@ -257,12 +270,15 @@ function displayDef(arrayOfObjects) {
                                                         getDictionary(stem).then(arr => {
                                                             arr.forEach(obj => {
                                                                 defText.innerHTML = `<span class="see-also">see also:</span> ${stem}: ${obj.shortdef}`;
+                                                                orderedList.appendChild(defText);
+                                                                defDiv.appendChild(orderedList);
+                                                                resultPanel.appendChild(defDiv);
                                                             })
-                                                        });
-                                                        orderedList.appendChild(defText);
-                                                        defDiv.appendChild(orderedList);
-                                                        resultPanel.appendChild(defDiv);
+                                                        });                                                                                                          
                                                     }
+                                                    // orderedList.appendChild(defText);
+                                                    // defDiv.appendChild(orderedList);
+                                                    // resultPanel.appendChild(defDiv);                                                    
                                                 }
                                             }
                                             if(typeof(textvis) === "string" && textvis.length > 10 && !(textvis.includes("dx"))) {
